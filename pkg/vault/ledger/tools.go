@@ -3,16 +3,16 @@ package ledger
 import (
 	"encoding/hex"
 
-	"github.com/ecadlabs/signatory/pkg/tezos"
-	"github.com/ecadlabs/signatory/pkg/vault/ledger/tezosapp"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault/ledger/mavrykapp"
 )
 
 // Utility functions used by CLI
 
 func SetupBaking(id, keyID, chainID string, mainHWM, testHWM uint32) (pkh string, err error) {
-	var hwm tezosapp.HWM
+	var hwm mavrykapp.HWM
 	if chainID != "" {
-		hwm.ChainID, err = tezos.DecodeChainID(chainID)
+		hwm.ChainID, err = mavryk.DecodeChainID(chainID)
 		if err != nil {
 			return
 		}
@@ -31,7 +31,7 @@ func SetupBaking(id, keyID, chainID string, mainHWM, testHWM uint32) (pkh string
 	if err != nil {
 		return
 	}
-	pkh, err = tezos.EncodePublicKeyHash(pub)
+	pkh, err = mavryk.EncodePublicKeyHash(pub)
 	if err != nil {
 		return
 	}

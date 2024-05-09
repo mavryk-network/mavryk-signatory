@@ -3,9 +3,9 @@ import styles from './Hero.module.scss';
 
 const FeatureList = [
 	{
-		title: 'A Tezos Remote Signer',
+		title: 'A Mavryk Remote Signer',
 		description: (
-			<>Signatory signs your Tezos Ops while protecting your private keys</>
+			<>Signatory signs your Mavryk Ops while protecting your private keys</>
 		),
 		link: {
 			title: 'Get Started',

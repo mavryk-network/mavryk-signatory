@@ -301,7 +301,7 @@ vaults:
       subscription_id: be223726da0-6dc1-4cdc-ab26-15a082bdaaa908
       resource_group: sigy
 
-tezos:
+mavryk:
   tz3d6nYmR1LmSDsgJ463Kgd8EbH53pYnuv8S:
     log_payloads: true
     allowed_operations:

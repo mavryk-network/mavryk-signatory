@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/signatory"
-	"github.com/ecadlabs/signatory/pkg/vault"
-	"github.com/ecadlabs/signatory/pkg/vault/ledger"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault/ledger"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 )

@@ -14,9 +14,9 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/kms"
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 
 	"gopkg.in/yaml.v3"
 )

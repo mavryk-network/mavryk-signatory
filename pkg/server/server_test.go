@@ -5,6 +5,7 @@ package server_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -13,9 +14,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ecadlabs/signatory/pkg/server"
-	"github.com/ecadlabs/signatory/pkg/server/auth"
-	"github.com/ecadlabs/signatory/pkg/signatory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/server"
+	"github.com/mavryk-network/mavryk-signatory/pkg/server/auth"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 	"github.com/stretchr/testify/require"
 )
 
@@ -120,6 +121,10 @@ func TestSign(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
+
+			fmt.Printf("\n")
+			fmt.Printf("%+v\n", string(b))
+			fmt.Printf("\n")
 
 			require.Equal(t, c.Expected, string(b))
 		})
@@ -234,7 +239,7 @@ func TestSignedRequest(t *testing.T) {
 			defer s.Close()
 
 			body := strings.NewReader("\"03a11f5f176e553a11cf184bb2b15f09f55dfc5dcb2d26d79bf5dd099d074d5f5d6c0079cae4c9a1885f17d3995619bf28636c4394458b820af19172c35000904e0000712c4c4270d9e7f512115310d8ec6acfcd878bef00\"")
-			u, _ := url.Parse(s.URL + "/keys/tz1Wk1Wdczh5BzyZ1uz2DW9xdFg9B5cFuGFm")
+			u, _ := url.Parse(s.URL + "/keys/mv19VEmW4zEELeQiBqLHH4RHgysYuLe4P6xt")
 			if c.Signature != "" {
 				u.RawQuery = url.Values{
 					"authentication": []string{c.Signature},

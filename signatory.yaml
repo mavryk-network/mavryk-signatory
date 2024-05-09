@@ -30,7 +30,7 @@ vaults:
       auth_key_id: 1
 
 # List enabled public keys hashes here
-tezos:
+mavryk:
   # This example does not specifiy a policy, and be default will allow signing of "block" and "endorsement" operations only.
   tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus:
 

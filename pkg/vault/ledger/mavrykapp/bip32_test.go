@@ -1,6 +1,6 @@
 //go:build !integration
 
-package tezosapp
+package mavrykapp
 
 import (
 	"testing"

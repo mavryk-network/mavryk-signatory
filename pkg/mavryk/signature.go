@@ -1,4 +1,4 @@
-package tezos
+package mavryk
 
 import (
 	"crypto"
@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
 )
 
 func encodeSignature(sig cryptoutils.Signature) (prefix tzPrefix, payload []byte, err error) {
@@ -21,7 +21,7 @@ func encodeSignature(sig cryptoutils.Signature) (prefix tzPrefix, payload []byte
 		sr := s.R.Bytes()
 		ss := s.S.Bytes()
 		if len(sr) > 32 || len(ss) > 32 {
-			return tzPrefix{}, nil, errors.New("tezos: invalid signature size") // unlikely
+			return tzPrefix{}, nil, errors.New("mavryk: invalid signature size") // unlikely
 		}
 		payload = make([]byte, 64)
 		copy(payload[32-len(sr):], sr)
@@ -35,7 +35,7 @@ func encodeSignature(sig cryptoutils.Signature) (prefix tzPrefix, payload []byte
 			prefix = pGenericSignature
 		}
 	default:
-		return tzPrefix{}, nil, fmt.Errorf("tezos: unknown signature type %T (%v)", sig, sig)
+		return tzPrefix{}, nil, fmt.Errorf("mavryk: unknown signature type %T (%v)", sig, sig)
 	}
 	return
 }
@@ -59,7 +59,7 @@ func EncodeSignature(sig cryptoutils.Signature) (res string, err error) {
 }
 
 // ErrSignature is the error returned if the signature type is unknown
-var ErrSignature = errors.New("tezos: unknown signature type")
+var ErrSignature = errors.New("mavryk: unknown signature type")
 
 func parseSignature(prefix tzPrefix, data []byte) (sig cryptoutils.Signature, err error) {
 	switch prefix {
@@ -100,7 +100,7 @@ func ParseSignature(s string, pub crypto.PublicKey) (sig cryptoutils.Signature, 
 			case cryptoutils.S256():
 				prefix = pSECP256K1Signature
 			default:
-				return nil, fmt.Errorf("tezos: unknown curve: %s", key.Params().Name)
+				return nil, fmt.Errorf("mavryk: unknown curve: %s", key.Params().Name)
 			}
 
 		case ed25519.PublicKey:

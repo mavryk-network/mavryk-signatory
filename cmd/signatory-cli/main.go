@@ -6,19 +6,19 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/ecadlabs/signatory/cmd/commands"
+	"github.com/mavryk-network/mavryk-signatory/cmd/commands"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 	// Install backends
-	_ "github.com/ecadlabs/signatory/pkg/vault/aws"
-	_ "github.com/ecadlabs/signatory/pkg/vault/azure"
-	_ "github.com/ecadlabs/signatory/pkg/vault/cloudkms"
-	_ "github.com/ecadlabs/signatory/pkg/vault/file"
-	_ "github.com/ecadlabs/signatory/pkg/vault/ledger"
-	_ "github.com/ecadlabs/signatory/pkg/vault/mem"
-	_ "github.com/ecadlabs/signatory/pkg/vault/yubi"
+	_ "github.com/mavryk-network/mavryk-signatory/pkg/vault/aws"
+	_ "github.com/mavryk-network/mavryk-signatory/pkg/vault/azure"
+	_ "github.com/mavryk-network/mavryk-signatory/pkg/vault/cloudkms"
+	_ "github.com/mavryk-network/mavryk-signatory/pkg/vault/file"
+	_ "github.com/mavryk-network/mavryk-signatory/pkg/vault/ledger"
+	_ "github.com/mavryk-network/mavryk-signatory/pkg/vault/mem"
+	_ "github.com/mavryk-network/mavryk-signatory/pkg/vault/yubi"
 )
 
 func newRootCommand(ctx context.Context) *cobra.Command {

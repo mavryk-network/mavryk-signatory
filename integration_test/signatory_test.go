@@ -16,14 +16,14 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
-	"github.com/ecadlabs/signatory/pkg/server"
-	"github.com/ecadlabs/signatory/pkg/server/auth"
-	"github.com/ecadlabs/signatory/pkg/signatory"
-	"github.com/ecadlabs/signatory/pkg/tezos"
-	"github.com/ecadlabs/signatory/pkg/vault"
-	"github.com/ecadlabs/signatory/pkg/vault/memory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
+	"github.com/mavryk-network/mavryk-signatory/pkg/server"
+	"github.com/mavryk-network/mavryk-signatory/pkg/server/auth"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault/memory"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/pbkdf2"
 	"gopkg.in/yaml.v3"
@@ -49,7 +49,7 @@ type secretKeyJSON struct {
 
 func secretKeyFromEnv() (cryptoutils.PrivateKey, error) {
 	if s := os.Getenv(envKey); s != "" {
-		return tezos.ParsePrivateKey(s, nil)
+		return mavryk.ParsePrivateKey(s, nil)
 	}
 
 	if s := os.Getenv(envKeyJSON); s != "" {
@@ -63,7 +63,7 @@ func secretKeyFromEnv() (cryptoutils.PrivateKey, error) {
 			salt := "mnemonic" + data.Email + data.Password
 			k := pbkdf2.Key([]byte(mnemonic), []byte(salt), 2048, 64, sha512.New)
 			pk := ed25519.NewKeyFromSeed(k[:32])
-			pkh, err := tezos.EncodePublicKeyHash(pk.Public())
+			pkh, err := mavryk.EncodePublicKeyHash(pk.Public())
 			if err != nil {
 				return nil, err
 			}
@@ -110,13 +110,13 @@ func genAuthKey() (pub, pkh, priv string, err error) {
 	if err != nil {
 		return
 	}
-	if pub, err = tezos.EncodePublicKey(pubk); err != nil {
+	if pub, err = mavryk.EncodePublicKey(pubk); err != nil {
 		return
 	}
-	if priv, err = tezos.EncodePrivateKey(privk); err != nil {
+	if priv, err = mavryk.EncodePrivateKey(privk); err != nil {
 		return
 	}
-	if pkh, err = tezos.EncodePublicKeyHash(pubk); err != nil {
+	if pkh, err = mavryk.EncodePublicKeyHash(pubk); err != nil {
 		return
 	}
 	return
@@ -132,7 +132,7 @@ func TestSignatory(t *testing.T) {
 	pk, err := secretKeyFromEnv()
 	require.NoError(t, err)
 
-	pub, err := tezos.EncodePublicKeyHash(pk.Public())
+	pub, err := mavryk.EncodePublicKeyHash(pk.Public())
 	require.NoError(t, err)
 
 	authPub, authPKH, authPriv, err := genAuthKey()
@@ -174,27 +174,27 @@ func TestSignatory(t *testing.T) {
 	require.NotEmpty(t, epAddr)
 
 	t.Run("Auth", func(t *testing.T) {
-		dir := "./authenticated-tezos-client"
+		dir := "./authenticated-mavkit-client"
 		os.Mkdir(dir, 0777)
 		// initialize client
-		require.NoError(t, logExec(t, "tezos-client", "--base-dir", dir, "--endpoint", epAddr, "config", "init"))
+		require.NoError(t, logExec(t, "mavkit-client", "--base-dir", dir, "--endpoint", epAddr, "config", "init"))
 		// import key
-		require.NoError(t, logExec(t, "tezos-client", "--base-dir", dir, "import", "secret", "key", userName, "http://"+srv.Addr+"/"+pub))
+		require.NoError(t, logExec(t, "mavkit-client", "--base-dir", dir, "import", "secret", "key", userName, "http://"+srv.Addr+"/"+pub))
 		// add authentication key
-		require.NoError(t, logExec(t, "tezos-client", "--base-dir", dir, "import", "secret", "key", authKeyName, "unencrypted:"+authPriv))
+		require.NoError(t, logExec(t, "mavkit-client", "--base-dir", dir, "import", "secret", "key", authKeyName, "unencrypted:"+authPriv))
 		// create transaction
-		require.NoError(t, logExec(t, "tezos-client", "--base-dir", dir, "transfer", "0.01", "from", userName, "to", "tz1burnburnburnburnburnburnburjAYjjX", "--burn-cap", "0.06425"))
+		require.NoError(t, logExec(t, "mavkit-client", "--base-dir", dir, "transfer", "0.01", "from", userName, "to", "mv2burnburnburnburnburnburnbur7hzNeg", "--burn-cap", "0.06425"))
 	})
 
 	t.Run("NoAuth", func(t *testing.T) {
-		dir := "./unauthenticated-tezos-client"
+		dir := "./unauthenticated-mavkit-client"
 		os.Mkdir(dir, 0777)
 		// initialize client
-		require.NoError(t, logExec(t, "tezos-client", "--base-dir", dir, "--endpoint", epAddr, "config", "init"))
+		require.NoError(t, logExec(t, "mavkit-client", "--base-dir", dir, "--endpoint", epAddr, "config", "init"))
 		// import key
-		require.NoError(t, logExec(t, "tezos-client", "--base-dir", dir, "import", "secret", "key", userName, "http://"+srv.Addr+"/"+pub))
+		require.NoError(t, logExec(t, "mavkit-client", "--base-dir", dir, "import", "secret", "key", userName, "http://"+srv.Addr+"/"+pub))
 		// create transaction
-		require.Error(t, logExec(t, "tezos-client", "--base-dir", dir, "transfer", "0.01", "from", userName, "to", "tz1burnburnburnburnburnburnburjAYjjX", "--burn-cap", "0.06425"))
+		require.Error(t, logExec(t, "mavkit-client", "--base-dir", dir, "transfer", "0.01", "from", userName, "to", "mv2burnburnburnburnburnburnbur7hzNeg", "--burn-cap", "0.06425"))
 	})
 
 	srv.Shutdown(context.Background())

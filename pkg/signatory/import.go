@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ecadlabs/signatory/pkg/tezos"
-	"github.com/ecadlabs/signatory/pkg/utils"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
+	"github.com/mavryk-network/mavryk-signatory/pkg/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 	log "github.com/sirupsen/logrus"
 )
 
 // Import a keyPair inside the vault
-func (s *Signatory) Import(ctx context.Context, importerName string, secretKey string, passCB tezos.PassphraseFunc, opt utils.Options) (*PublicKey, error) {
+func (s *Signatory) Import(ctx context.Context, importerName string, secretKey string, passCB mavryk.PassphraseFunc, opt utils.Options) (*PublicKey, error) {
 	v, ok := s.vaults[importerName]
 	if !ok {
 		return nil, fmt.Errorf("import: vault %s is not found", importerName)
@@ -22,14 +22,14 @@ func (s *Signatory) Import(ctx context.Context, importerName string, secretKey s
 		return nil, fmt.Errorf("import: vault %s doesn't support import operation", importerName)
 	}
 
-	pk, err := tezos.ParsePrivateKey(secretKey, passCB)
+	pk, err := mavryk.ParsePrivateKey(secretKey, passCB)
 	if err != nil {
 		return nil, err
 	}
 
 	pub := pk.Public()
 
-	hash, err := tezos.EncodePublicKeyHash(pub)
+	hash, err := mavryk.EncodePublicKeyHash(pub)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (s *Signatory) Import(ctx context.Context, importerName string, secretKey s
 
 	l.WithField(logKeyID, stored.ID()).Info("Successfully imported")
 
-	enc, err := tezos.EncodePublicKey(pub)
+	enc, err := mavryk.EncodePublicKey(pub)
 	if err != nil {
 		return nil, err
 	}

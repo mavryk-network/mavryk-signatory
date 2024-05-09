@@ -18,11 +18,11 @@ import (
 	"github.com/certusone/yubihsm-go"
 	"github.com/certusone/yubihsm-go/commands"
 	"github.com/certusone/yubihsm-go/connector"
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
-	"github.com/ecadlabs/signatory/pkg/errors"
-	"github.com/ecadlabs/signatory/pkg/utils"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/errors"
+	"github.com/mavryk-network/mavryk-signatory/pkg/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 	"gopkg.in/yaml.v3"
 )
 

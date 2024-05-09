@@ -10,13 +10,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/server"
-	"github.com/ecadlabs/signatory/pkg/server/auth"
-	"github.com/ecadlabs/signatory/pkg/signatory"
-	"github.com/ecadlabs/signatory/pkg/tezos"
-	"github.com/ecadlabs/signatory/pkg/vault"
-	"github.com/ecadlabs/signatory/pkg/vault/memory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
+	"github.com/mavryk-network/mavryk-signatory/pkg/server"
+	"github.com/mavryk-network/mavryk-signatory/pkg/server/auth"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault/memory"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 )
@@ -25,16 +25,16 @@ import (
 Auth:
 Private Key:     edsk3xMUYWwM2Gstbeeyd1pvsoYoGGdhjej1jGZk2EdMpYsgZcj5Pm
 Public Key:      edpkvN5hM4s88nzgxZGkNrVqtQfaiVpix356TFrAwQoVGrKseahWG6
-Public Key Hash: tz1KpduK2jQizMyLSfycjDmbBijWK1kpemJ3
+Public Key Hash: mv18C7CuM6i5ZdkZazYTy3TcLjbUsQA9PT1x
 
 Private Key:     edsk32vZZSKSLWDCUFKSbLYvv9GNAS3ErBftYfFgG1RiDbve5MoN5P
 Public Key:      edpkuv8KcJf1aG6vsJa1XuXsqto39tHNd8YB6qfZQ6FUX6ikQoh5Dq
-Public Key Hash: tz1LaPcNukJrEEJoNp2UqnhGfcqQtDPtSQ5o
+Public Key Hash: mv18wruyE7cCoW62X8bL5cPHpdhPSbrfnCgp
 
 Sign:
 Private Key:     edsk3K3EwiTVXtEnfuERrjzjp3pa6pRrvQE3VA97cModhXVhXpnsAQ
 Public Key:      edpkvVV6zH5xxewkxPN98SUTspBjYmDYZPX6PGSSDjCK5iDoT8vDQV
-Public Key Hash: tz1cJaw1s1o6o2hMv9r9Q8HWwJLAnD9wqg26
+Public Key Hash: mv1Qg4EcBP6TNJUb4UQzdwyY6KC9LbeEbher
 */
 
 func TestAuthenticatedRequestInMemoryVault(t *testing.T) {
@@ -69,10 +69,10 @@ func TestAuthenticatedRequestInMemoryVault(t *testing.T) {
 	pk := "edsk3K3EwiTVXtEnfuERrjzjp3pa6pRrvQE3VA97cModhXVhXpnsAQ"
 	message := "\"03a11f5f176e553a11cf184bb2b15f09f55dfc5dcb2d26d79bf5dd099d074d5f5d6c0079cae4c9a1885f17d3995619bf28636c4394458b820af19172c35000904e0000712c4c4270d9e7f512115310d8ec6acfcd878bef00\""
 
-	priv, err := tezos.ParsePrivateKey(pk, nil)
+	priv, err := mavryk.ParsePrivateKey(pk, nil)
 	require.NoError(t, err)
 
-	pub, err := tezos.EncodePublicKeyHash(priv.Public())
+	pub, err := mavryk.EncodePublicKeyHash(priv.Public())
 	require.NoError(t, err)
 
 	conf := signatory.Config{
@@ -85,7 +85,7 @@ func TestAuthenticatedRequestInMemoryVault(t *testing.T) {
 			pub: {
 				AllowedOperations:   []string{"generic", "block", "endorsement"},
 				AllowedKinds:        []string{"endorsement", "seed_nonce_revelation", "activate_account", "ballot", "reveal", "transaction", "origination", "delegation"},
-				AuthorizedKeyHashes: []string{"tz1KpduK2jQizMyLSfycjDmbBijWK1kpemJ3"},
+				AuthorizedKeyHashes: []string{"mv18C7CuM6i5ZdkZazYTy3TcLjbUsQA9PT1x"},
 			},
 		},
 	}

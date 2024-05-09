@@ -9,18 +9,18 @@ import (
 	yaml "gopkg.in/yaml.v3"
 )
 
-// ServerConfig contains the information necessary to the tezos signing server
+// ServerConfig contains the information necessary to the mavryk signing server
 type ServerConfig struct {
 	Address        string          `yaml:"address" validate:"hostname_port"`
 	UtilityAddress string          `yaml:"utility_address" validate:"hostname_port"`
 	AuthorizedKeys *AuthorizedKeys `yaml:"authorized_keys"`
 }
 
-// TezosConfig contains the configuration related to tezos network
-type TezosConfig map[string]*TezosPolicy
+// MavrykConfig contains the configuration related to mavryk network
+type MavrykConfig map[string]*MavrykPolicy
 
-// TezosPolicy contains policy definition for a specific address
-type TezosPolicy struct {
+// MavrykPolicy contains policy definition for a specific address
+type MavrykPolicy struct {
 	AllowedOperations []string        `yaml:"allowed_operations" validate:"dive,oneof=generic block endorsement"`
 	AllowedKinds      []string        `yaml:"allowed_kinds" validate:"dive,oneof=endorsement seed_nonce_revelation double_endorsement_evidence double_baking_evidence activate_account ballot proposals reveal transaction origination delegation"`
 	LogPayloads       bool            `yaml:"log_payloads"`
@@ -36,7 +36,7 @@ type VaultConfig struct {
 // Config contains all the configuration necessary to run the signatory
 type Config struct {
 	Vaults  map[string]*VaultConfig `yaml:"vaults" validate:"dive,required"`
-	Tezos   TezosConfig             `yaml:"tezos" validate:"dive,keys,startswith=tz1|startswith=tz2|startswith=tz3,len=36,endkeys"`
+	Mavryk  MavrykConfig            `yaml:"mavryk" validate:"dive,keys,startswith=mv1|startswith=mv2|startswith=mv3,len=36,endkeys"`
 	Server  ServerConfig            `yaml:"server"`
 	BaseDir string                  `yaml:"base_dir" validate:"required"`
 }

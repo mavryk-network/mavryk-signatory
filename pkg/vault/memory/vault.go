@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
-	"github.com/ecadlabs/signatory/pkg/errors"
-	"github.com/ecadlabs/signatory/pkg/tezos"
-	"github.com/ecadlabs/signatory/pkg/utils"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/errors"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
+	"github.com/mavryk-network/mavryk-signatory/pkg/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 )
 
 type PrivateKey struct {
@@ -59,7 +59,7 @@ func (i *iterator) Next() (key vault.StoredKey, err error) {
 	return key, nil
 }
 
-// NewUnparsed create a new in-mempory vault from Tezos encoded data. Call Unlock before use
+// NewUnparsed create a new in-mempory vault from Mavryk encoded data. Call Unlock before use
 func NewUnparsed(data []*UnparsedKey, name string) *Vault {
 	if name == "" {
 		name = "Mem"
@@ -87,7 +87,7 @@ func New(src []*PrivateKey, name string) (*Vault, error) {
 			id := k.KeyID
 			var err error
 			if id == "" {
-				id, err = tezos.EncodePublicKeyHash(k.PrivateKey.Public())
+				id, err = mavryk.EncodePublicKeyHash(k.PrivateKey.Public())
 				if err != nil {
 					return nil, fmt.Errorf("(%s): %v", name, err)
 				}
@@ -161,14 +161,14 @@ func (v *Vault) Unlock(ctx context.Context) error {
 			name = "<unnamed>"
 		}
 
-		pk, err := tezos.ParsePrivateKey(entry.Data, utils.KeyboardInteractivePassphraseFunc(fmt.Sprintf("(%s): Enter password to unlock key `%s': ", v.name, name)))
+		pk, err := mavryk.ParsePrivateKey(entry.Data, utils.KeyboardInteractivePassphraseFunc(fmt.Sprintf("(%s): Enter password to unlock key `%s': ", v.name, name)))
 		if err != nil {
 			return fmt.Errorf("(%s): %v", v.name, err)
 		}
 
 		id := entry.ID
 		if id == "" {
-			id, err = tezos.EncodePublicKeyHash(pk.Public())
+			id, err = mavryk.EncodePublicKeyHash(pk.Public())
 			if err != nil {
 				return fmt.Errorf("(%s): %v", v.name, err)
 			}
@@ -198,7 +198,7 @@ func (v *Vault) ImportKey(ctx context.Context, pk cryptoutils.PrivateKey, opt ut
 	}
 
 	if !ok || id == "" {
-		id, err = tezos.EncodePublicKeyHash(pk.Public())
+		id, err = mavryk.EncodePublicKeyHash(pk.Public())
 		if err != nil {
 			return nil, fmt.Errorf("(%s): %v", v.name, err)
 		}

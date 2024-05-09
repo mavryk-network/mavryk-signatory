@@ -1,4 +1,4 @@
-package tezos
+package mavryk
 
 import (
 	"bytes"
@@ -19,7 +19,7 @@ func (t *tzPrefix) prefix() []byte {
 }
 
 // Common prefixes
-// See https://gitlab.com/tezos/tezos/blob/master/src/lib_crypto/base58.ml
+// See https://gitlab.com/mavryk/mavryk/blob/master/src/lib_crypto/base58.ml
 var (
 	// 32
 	pBlockHash                     = tzPrefix{plen: 2, mlen: 32, p: [5]byte{1, 52}}        // B(51)
@@ -34,12 +34,12 @@ var (
 	pOperationMetadataListListHash = tzPrefix{plen: 2, mlen: 32, p: [5]byte{29, 159, 182}} // LLr(53)
 
 	// 20
-	pED25519PublicKeyHash   = tzPrefix{plen: 3, mlen: 20, p: [5]byte{6, 161, 159}}   // tz1(36)
-	pSECP256K1PublicKeyHash = tzPrefix{plen: 3, mlen: 20, p: [5]byte{6, 161, 161}}   // tz2(36)
-	pP256PublicKeyHash      = tzPrefix{plen: 3, mlen: 20, p: [5]byte{6, 161, 164}}   // tz3(36)
-	pContractHash           = tzPrefix{plen: 3, mlen: 20, p: [5]byte{2, 90, 121}}    // KT1(36)
-	pBlindedPublicKeyHash   = tzPrefix{plen: 4, mlen: 20, p: [5]byte{1, 2, 49, 223}} // btz1(37)
-	pBLS12_381PublicKeyHash = tzPrefix{plen: 3, mlen: 20, p: [5]byte{6, 161, 166}}   // tz4(36)
+	pED25519PublicKeyHash   = tzPrefix{plen: 3, mlen: 20, p: [5]byte{5, 186, 196}} // mv1(36)
+	pSECP256K1PublicKeyHash = tzPrefix{plen: 3, mlen: 20, p: [5]byte{5, 186, 199}} // mv2(36)
+	pP256PublicKeyHash      = tzPrefix{plen: 3, mlen: 20, p: [5]byte{5, 186, 201}} // mv3(36)
+	pContractHash           = tzPrefix{plen: 3, mlen: 20, p: [5]byte{2, 90, 121}}  // KT1(36)
+	pBlindedPublicKeyHash   = tzPrefix{plen: 4, mlen: 20, p: [5]byte{1, 1, 75, 4}} // bmv1(37)
+	pBLS12_381PublicKeyHash = tzPrefix{plen: 3, mlen: 20, p: [5]byte{5, 186, 204}} // mv4(36)
 	pL2Address              = pBLS12_381PublicKeyHash
 	pRollupAddress          = tzPrefix{plen: 4, mlen: 20, p: [5]byte{1, 128, 120, 31}}  // txr1(37)
 	pScRollupHash           = tzPrefix{plen: 4, mlen: 20, p: [5]byte{1, 118, 132, 217}} // scr1(37)
@@ -173,8 +173,8 @@ var commonPrefixes = []tzPrefix{
 	pScRollupHash,
 }
 
-// ErrPrefix is returned in case of unknown Tezos base58 prefix
-var ErrPrefix = errors.New("unknown Tezos base58 prefix")
+// ErrPrefix is returned in case of unknown Mavryk base58 prefix
+var ErrPrefix = errors.New("unknown Mavryk base58 prefix")
 
 func decodeBase58(data string) (prefix tzPrefix, payload []byte, err error) {
 	buf, err := DecodeBase58Check(data)
@@ -185,7 +185,7 @@ func decodeBase58(data string) (prefix tzPrefix, payload []byte, err error) {
 		prefix := p.prefix()
 		if bytes.HasPrefix(buf, prefix) {
 			if p.mlen != 0 && len(buf)-len(prefix) != p.mlen {
-				return p, nil, fmt.Errorf("tezos: invalid base58 message length: expected %d, got %d", p.mlen, len(buf)-len(prefix))
+				return p, nil, fmt.Errorf("mavryk: invalid base58 message length: expected %d, got %d", p.mlen, len(buf)-len(prefix))
 			}
 			return p, buf[len(prefix):], nil
 		}
@@ -205,7 +205,7 @@ func encodeBase58(prefix tzPrefix, payload []byte) string {
 func DecodeChainID(src string) (res [4]byte, err error) {
 	cid, err := hex.DecodeString(src)
 	if len(cid) != 4 {
-		return res, errors.New("tezos: invalid chain ID")
+		return res, errors.New("mavryk: invalid chain ID")
 	}
 	if err == nil {
 		copy(res[:], cid)
@@ -218,7 +218,7 @@ func DecodeChainID(src string) (res [4]byte, err error) {
 	}
 
 	if prefix != pChainID {
-		return res, errors.New("tezos: invalid chain ID")
+		return res, errors.New("mavryk: invalid chain ID")
 	}
 	copy(res[:], cid)
 	return
@@ -230,7 +230,7 @@ func DecodeValueHash(src string) (res [32]byte, err error) {
 		return
 	}
 	if prefix != pValueHash {
-		return res, errors.New("tezos: invalid value hash")
+		return res, errors.New("mavryk: invalid value hash")
 	}
 	copy(res[:], h)
 	return

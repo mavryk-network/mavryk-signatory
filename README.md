@@ -1,24 +1,24 @@
 ![Signatory Logo](/docs/signatory-logo.png "Signatory Logo")
 
-#### A Tezos Remote Signer
+#### A Mavryk Remote Signer
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2778/badge)](https://bestpractices.coreinfrastructure.org/projects/2778)
-[![GitHub Actions](https://github.com/ecadlabs/signatory/workflows/Test%20and%20publish/badge.svg)](https://github.com/ecadlabs/signatory/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c1304869331b687e0aba/maintainability)](https://codeclimate.com/github/ecadlabs/signatory/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c1304869331b687e0aba/test_coverage)](https://codeclimate.com/github/ecadlabs/signatory/test_coverage)
-[![Go Report Card](https://goreportcard.com/badge/github.com/ecadlabs/signatory)](https://goreportcard.com/report/github.com/ecadlabs/signatory)
+[![GitHub Actions](https://github.com/mavryk-network/mavryk-signatory/workflows/Test%20and%20publish/badge.svg)](https://github.com/mavryk-network/mavryk-signatory/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c1304869331b687e0aba/maintainability)](https://codeclimate.com/github/mavryk-network/mavryk-signatory/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/c1304869331b687e0aba/test_coverage)](https://codeclimate.com/github/mavryk-network/mavryk-signatory/test_coverage)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mavryk-network/mavryk-signatory)](https://goreportcard.com/report/github.com/mavryk-network/mavryk-signatory)
 
 _WARNING: This project is in active development. While we welcome users and feedback, please be warned that this project is a work in progress, and users should proceed with caution._
 
 ## What is Signatory?
 
-Signatory is a remote signing daemon that allows people running Tezos bakers to securely sign endorsement and baking operations with a variety of different key management systems.
+Signatory is a remote signing daemon that allows people running Mavryk bakers to securely sign endorsement and baking operations with a variety of different key management systems.
 
 The goal of the Signatory service is to make key management as secure as possible in a Cloud and on-premise HSM context.
 
 ## Why Use Signatory?
 
-Security and convenience are typically at odds with each other. Signatory makes it easier for Tezos node operators to manage their keys securely by offering several well-tested & supported signing options for cloud-based or hardware-based HSMs.
+Security and convenience are typically at odds with each other. Signatory makes it easier for Mavryk node operators to manage their keys securely by offering several well-tested & supported signing options for cloud-based or hardware-based HSMs.
 
 ## Quick Start
 
@@ -44,11 +44,11 @@ Private-key import is an important security consideration when choosing a Cloud 
 
 ## How it Works
 
-* Tezos sends a signing request to Signatory
+* Mavryk sends a signing request to Signatory
 * Signatory checks that the operation is either `block` or `endorsement`
 * Signatory sends the operation to the configured backend for singing
-* Upon receiving the signing operation from the backend, Signatory validates the signature with a Tezos node (optional)
-* Signatory returns the operation signature to the Tezos node
+* Upon receiving the signing operation from the backend, Signatory validates the signature with a Mavryk node (optional)
+* Signatory returns the operation signature to the Mavryk node
 
 ## Supported Signing Backends
 
@@ -56,9 +56,9 @@ Signatory currently supports [Azure Key Vault][0]. Other backend signing service
 
 We are adding support for additional backend Key Management Systems (KMS) for the secure handling of private keys. Most cloud-based KMS systems offer an HSM-backed mode, which we strongly recommend.
 
-Our goal in supporting multiple Cloud KMS/HSM services is to help in preventing centralization on the _network_ or _infrastructure_ level. A goal of Tezos is to have a highly decentralized network of bakers. That goal is not fully realized if, of those bakers, a large majority operate on a single infrastructure provider.
+Our goal in supporting multiple Cloud KMS/HSM services is to help in preventing centralization on the _network_ or _infrastructure_ level. A goal of Mavryk is to have a highly decentralized network of bakers. That goal is not fully realized if, of those bakers, a large majority operate on a single infrastructure provider.
 
-In the first year of the Tezos network operation, there was anecdotal evidence that a large percentage of bakers run on AWS. AWS is a superb provider, but having a concentration of nodes on one cloud vendor centralizes the underlying infrastructure of the network, which is not desirable. By supporting multiple Cloud KMS/HSM systems, we hope to prevent the network from centralization on a particular Cloud offering.
+In the first year of the Mavryk network operation, there was anecdotal evidence that a large percentage of bakers run on AWS. AWS is a superb provider, but having a concentration of nodes on one cloud vendor centralizes the underlying infrastructure of the network, which is not desirable. By supporting multiple Cloud KMS/HSM systems, we hope to prevent the network from centralization on a particular Cloud offering.
 
 ### Backend KMS/HSM Support Status
 
@@ -69,17 +69,17 @@ In the first year of the Tezos network operation, there was anecdotal evidence t
 | Google Cloud KMS | In Testing  |
 | AWS KMS          | Planned     |
 
-### Tezos Address Types
+### Mavryk Address Types
 
-In Tezos, you can infer the signing algorithm from the first three characters of an address. For example, an address beginning with `tz3` uses the P-256 algorithm. HSMs and Cloud-based HSMs have support for a subset of the three algorithms supported by Tezos.
+In Mavryk, you can infer the signing algorithm from the first three characters of an address. For example, an address beginning with `mv3` uses the P-256 algorithm. HSMs and Cloud-based HSMs have support for a subset of the three algorithms supported by Mavryk.
 
-* `tz1` - [Ed25519](https://ed25519.cr.yp.to/)
-* `tz2` - [Secp256k1](https://en.bitcoin.it/wiki/Secp256k1) __aka: P256K__
-* `tz3` - P-256
+* `mv1` - [Ed25519](https://ed25519.cr.yp.to/)
+* `mv2` - [Secp256k1](https://en.bitcoin.it/wiki/Secp256k1) __aka: P256K__
+* `mv3` - P-256
 
 ## Signing Algorithm Support From Various Backends
 
-|                  | tz1 | tz2 | tz3 |
+|                  | mv1 | mv2 | mv3 |
 | ---------------- | --- | --- | --- |
 | Google Cloud KMS | ❌   | ❌   | ✅   |
 | AWS KMS          | ❌   | ✅   | ✅   |
@@ -98,7 +98,7 @@ Reports may be encrypted using keys published on keybase.io using [keybase/jevon
 
 ### Other Issues & Feature Requests
 
-Please use the [GitHub issue tracker](https://github.com/ecadlabs/signatory/issues) to report bugs or request features.
+Please use the [GitHub issue tracker](https://github.com/mavryk-network/mavryk-signatory/issues) to report bugs or request features.
 
 ## Contributions
 
@@ -110,7 +110,7 @@ For a contribution to be merged, it is required to have complete documentation, 
 
 ## Alternative Remote Signers
 
-At least three other remote signers are available to use with Tezos. Tezos also provides native support for baking with a Ledger Nano. We encourage bakers to, at a minimum, review these projects. We are eager to collaborate and be peers with these great projects.
+At least three other remote signers are available to use with Mavryk. Mavryk also provides native support for baking with a Ledger Nano. We encourage bakers to, at a minimum, review these projects. We are eager to collaborate and be peers with these great projects.
 
 * [Tezzigator's Azure remote signer](https://github.com/tezzigator/azure-tezos-signer)
 * [Tacoinfra's remote signer](https://github.com/tacoinfra/remote-signer)

@@ -1,4 +1,4 @@
-module github.com/ecadlabs/signatory
+module github.com/mavryk-network/mavryk-signatory
 
 go 1.18
 

@@ -1,10 +1,10 @@
-package tezos
+package mavryk
 
 import (
 	"fmt"
 	"math/big"
 
-	"github.com/ecadlabs/signatory/pkg/tezos/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk/utils"
 )
 
 // Operation is implemented by all operations
@@ -1261,7 +1261,7 @@ func parseOperation(buf *[]byte) (op Operation, err error) {
 		}
 	}
 
-	return nil, fmt.Errorf("tezos: unknown or unimplemented operation tag: %d", t)
+	return nil, fmt.Errorf("mavryk: unknown or unimplemented operation tag: %d", t)
 }
 
 func parseAmount(buf *[]byte) (int64, error) {
@@ -1310,7 +1310,7 @@ func parseInlinedEndorsement(buf *[]byte) (*InlinedEndorsement, error) {
 	}
 	e, ok := op.(Endorsement)
 	if !ok {
-		return nil, fmt.Errorf("tezos: endorsement operation expected, got: %T", op)
+		return nil, fmt.Errorf("mavryk: endorsement operation expected, got: %T", op)
 	}
 	return &InlinedEndorsement{
 		Endorsement: e,
@@ -1330,7 +1330,7 @@ func parseInlinedPreendorsement(buf *[]byte) (*InlinedPreendorsement, error) {
 	}
 	e, ok := op.(*OpPreendorsement)
 	if !ok {
-		return nil, fmt.Errorf("tezos: preendorsement operation expected, got: %T", op)
+		return nil, fmt.Errorf("mavryk: preendorsement operation expected, got: %T", op)
 	}
 	return &InlinedPreendorsement{
 		OpPreendorsement: *e,
@@ -1360,7 +1360,7 @@ func parsePublicKeyHash(buf *[]byte) (pkh string, err error) {
 	case tagPublicKeyHashP256:
 		prefix = pP256PublicKeyHash
 	default:
-		return "", fmt.Errorf("tezos: unknown public key hash tag: %d", t)
+		return "", fmt.Errorf("mavryk: unknown public key hash tag: %d", t)
 	}
 
 	b, err := utils.GetBytes(buf, 20)
@@ -1398,7 +1398,7 @@ func parsePublicKey(buf *[]byte) (pkh string, err error) {
 		prefix = pP256PublicKey
 		ln = 33
 	default:
-		return "", fmt.Errorf("tezos: unknown public key tag: %d", t)
+		return "", fmt.Errorf("mavryk: unknown public key tag: %d", t)
 	}
 
 	b, err := utils.GetBytes(buf, ln)
@@ -1447,7 +1447,7 @@ func parseDestination(buf *[]byte) (pkh string, err error) {
 		return pkh, err
 	}
 
-	return "", fmt.Errorf("tezos: unknown contract id tag: %d", t)
+	return "", fmt.Errorf("mavryk: unknown contract id tag: %d", t)
 }
 
 func parseBigNum(buf *[]byte) (val *big.Int, err error) {
@@ -1508,7 +1508,7 @@ func parseEntrypoint(buf *[]byte) (e string, err error) {
 		}
 		e = string(name)
 	default:
-		return "", fmt.Errorf("tezos: unknown entrypoint tag: %d", t)
+		return "", fmt.Errorf("mavryk: unknown entrypoint tag: %d", t)
 	}
 	return e, nil
 }
