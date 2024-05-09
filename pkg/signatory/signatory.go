@@ -293,8 +293,9 @@ func (s *Signatory) Sign(ctx context.Context, req *SignRequest) (string, error) 
 	l.Debugf("Encoded signature: %s", encodedSig)
 	l.Infof("Signed %s successfully", msg.MessageKind())
 
+	fmt.Print("\n")
 	fmt.Print(encodedSig)
-
+	fmt.Print("\n")
 	return encodedSig, nil
 }
 
