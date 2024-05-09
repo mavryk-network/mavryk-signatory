@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
 	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk/utils"
 	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 	"github.com/spf13/cobra"
