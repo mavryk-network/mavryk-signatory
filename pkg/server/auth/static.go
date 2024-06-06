@@ -4,7 +4,7 @@ import (
 	"context"
 	"crypto"
 
-	"github.com/ecadlabs/signatory/pkg/tezos"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
 )
 
 type staticAuthorizedKeys struct {
@@ -29,7 +29,7 @@ func StaticAuthorizedKeys(pub ...crypto.PublicKey) (AuthorizedKeysStorage, error
 	idx := make(map[string]crypto.PublicKey)
 	keys := make([]string, len(pub))
 	for i, k := range pub {
-		pkh, err := tezos.EncodePublicKeyHash(k)
+		pkh, err := mavryk.EncodePublicKeyHash(k)
 		if err != nil {
 			return nil, err
 		}
@@ -46,7 +46,7 @@ func StaticAuthorizedKeys(pub ...crypto.PublicKey) (AuthorizedKeysStorage, error
 func StaticAuthorizedKeysFromString(pub ...string) (AuthorizedKeysStorage, error) {
 	keys := make([]crypto.PublicKey, len(pub))
 	for i, s := range pub {
-		k, err := tezos.ParsePublicKey(s)
+		k, err := mavryk.ParsePublicKey(s)
 		if err != nil {
 			return nil, err
 		}

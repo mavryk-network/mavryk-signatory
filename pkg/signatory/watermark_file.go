@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/ecadlabs/signatory/pkg/tezos"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
 )
 
 // chain -> kind -> delegate(pkh)
@@ -24,10 +24,10 @@ type watermarkData struct {
 	Hash  string `json:"hash,omitempty"`
 }
 
-func (w *watermarkData) isSafeToSign(msg tezos.MessageWithLevel, hash []byte) error {
+func (w *watermarkData) isSafeToSign(msg mavryk.MessageWithLevel, hash []byte) error {
 	var whash []byte
 	if w.Hash != "" {
-		h, err := tezos.DecodeValueHash(w.Hash)
+		h, err := mavryk.DecodeValueHash(w.Hash)
 		if err != nil {
 			return err
 		}
@@ -36,7 +36,7 @@ func (w *watermarkData) isSafeToSign(msg tezos.MessageWithLevel, hash []byte) er
 	dataMatched := bytes.Equal(whash, hash)
 
 	var round int32 = 0
-	if mr, ok := msg.(tezos.MessageWithRound); ok {
+	if mr, ok := msg.(mavryk.MessageWithRound); ok {
 		round = mr.GetRound()
 	}
 
@@ -59,8 +59,8 @@ type FileWatermark struct {
 	mtx     sync.Mutex
 }
 
-func (f *FileWatermark) IsSafeToSign(pkh string, hash []byte, msg tezos.UnsignedMessage) error {
-	m, ok := msg.(tezos.MessageWithLevel)
+func (f *FileWatermark) IsSafeToSign(pkh string, hash []byte, msg mavryk.UnsignedMessage) error {
+	m, ok := msg.(mavryk.MessageWithLevel)
 	if !ok {
 		// watermark is not required
 		return nil
@@ -103,12 +103,12 @@ func (f *FileWatermark) IsSafeToSign(pkh string, hash []byte, msg tezos.Unsigned
 		kinds[m.MessageKind()] = wm
 	}
 	var round int32 = 0
-	if mr, ok := msg.(tezos.MessageWithRound); ok {
+	if mr, ok := msg.(mavryk.MessageWithRound); ok {
 		round = mr.GetRound()
 	}
 	var ench string
 	if hash != nil {
-		ench = tezos.EncodeValueHash(hash)
+		ench = mavryk.EncodeValueHash(hash)
 	}
 	wm[pkh] = &watermarkData{
 		Round: round,

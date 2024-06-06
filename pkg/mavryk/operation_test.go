@@ -1,4 +1,4 @@
-package tezos
+package mavryk
 
 import (
 	"encoding/hex"
@@ -23,15 +23,15 @@ func strTime(s string) time.Time {
 	return time.Unix(t.Unix(), 0).UTC()
 }
 
-// tezos/tezt/_regressions/encoding/hangzhou.operation.out
-// tezos/tezt/_regressions/encoding/ithaca.operation.out
+// mavryk/tezt/_regressions/encoding/hangzhou.operation.out
+// mavryk/tezt/_regressions/encoding/ithaca.operation.out
 var testData = map[string][]opTestCase{
 	"hangzhou": {
 		{
 			Kind: "activate_account",
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a804c55cf02dbeecc978d9c84625dcae72bb77ea4fbd41f98b15efc63fa893d61d7d6eee4a2ce9427ac466804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpActivateAccount{
-				PublicKeyHash: "tz1ddb9NMYHZi5UzPdzTZMYQQZoMub195zgv",
+				PublicKeyHash: "mv1S14SxfuavHMGDXxZJoBERZafLTyX3Z6Dx",
 				Secret:        []uint8{0x41, 0xf9, 0x8b, 0x15, 0xef, 0xc6, 0x3f, 0xa8, 0x93, 0xd6, 0x1d, 0x7d, 0x6e, 0xee, 0x4a, 0x2c, 0xe9, 0x42, 0x7a, 0xc4},
 			},
 		},
@@ -39,7 +39,7 @@ var testData = map[string][]opTestCase{
 			Kind: "ballot",
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8060002298c03ed7d454a101eb7022bc95f7e5f41ac78000002cf7663cf120f3dc8189d5dc7d4d7a0483bcc53f3f18e700f5a2f5076aa8b9dc55c0066804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpBallot{
-				Source:   "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+				Source:   "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 				Period:   719,
 				Proposal: "PscqRYywd243M2eZspXZEJGsRmNchp4ZKfKmoyEZTRHeLQvVGjp",
 				Ballot:   "yay",
@@ -50,7 +50,7 @@ var testData = map[string][]opTestCase{
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a86e0002298c03ed7d454a101eb7022bc95f7e5f41ac7821dc05edecc004adcacdb7d4010066804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpDelegation{
 				Manager: Manager{
-					Source:       "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+					Source:       "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 					Fee:          big.NewInt(33),
 					Counter:      big.NewInt(732),
 					GasLimit:     big.NewInt(9451117),
@@ -144,14 +144,14 @@ var testData = map[string][]opTestCase{
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a86d0002298c03ed7d454a101eb7022bc95f7e5f41ac7821dc05edecc004adcacdb7d401af9105ff0002298c03ed7d454a101eb7022bc95f7e5f41ac7800000020020000001b050003680501056303680502020000000a03160346053d036d03420000000e020000000901000000047465737466804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpOrigination{
 				Manager: Manager{
-					Source:       "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+					Source:       "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 					Fee:          big.NewInt(33),
 					Counter:      big.NewInt(732),
 					GasLimit:     big.NewInt(9451117),
 					StorageLimit: big.NewInt(57024931117),
 				},
 				Balance:  big.NewInt(84143),
-				Delegate: "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+				Delegate: "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 				Script: &ScriptedContract{
 					Code: []uint8{
 						0x02, 0x00, 0x00, 0x00, 0x1b, 0x05, 0x00, 0x03, 0x68, 0x05, 0x01, 0x05, 0x63, 0x03, 0x68, 0x05,
@@ -167,7 +167,7 @@ var testData = map[string][]opTestCase{
 			Kind: "proposals",
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8050002298c03ed7d454a101eb7022bc95f7e5f41ac78000002cf000000407663cf120f3dc8189d5dc7d4d7a0483bcc53f3f18e700f5a2f5076aa8b9dc55c7663cf120f3dc8189d5dc7d4d7a0483bcc53f3f18e700f5a2f5076aa8b9dc55c66804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpProposals{
-				Source: "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+				Source: "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 				Period: 719,
 				Proposals: []string{
 					"PscqRYywd243M2eZspXZEJGsRmNchp4ZKfKmoyEZTRHeLQvVGjp",
@@ -180,7 +180,7 @@ var testData = map[string][]opTestCase{
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a86b0002298c03ed7d454a101eb7022bc95f7e5f41ac7821dc05edecc004adcacdb7d401004798d2cc98473d7e250c898885718afd2e4efbcb1a1595ab9730761ed830de0f66804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpReveal{
 				Manager: Manager{
-					Source:       "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+					Source:       "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 					Fee:          big.NewInt(33),
 					Counter:      big.NewInt(732),
 					GasLimit:     big.NewInt(9451117),
@@ -202,7 +202,7 @@ var testData = map[string][]opTestCase{
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a86c0002298c03ed7d454a101eb7022bc95f7e5f41ac7821dc05edecc004adcacdb7d40197030138560805b4c8d7b7fbbafad5c59dbfa3878ca70500ffff06616374696f6e000000070200000002034f66804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpTransaction{
 				Manager: Manager{
-					Source:       "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+					Source:       "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 					Fee:          big.NewInt(33),
 					Counter:      big.NewInt(732),
 					GasLimit:     big.NewInt(9451117),
@@ -224,7 +224,7 @@ var testData = map[string][]opTestCase{
 			Kind: "activate_account",
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a804c55cf02dbeecc978d9c84625dcae72bb77ea4fbd41f98b15efc63fa893d61d7d6eee4a2ce9427ac466804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpActivateAccount{
-				PublicKeyHash: "tz1ddb9NMYHZi5UzPdzTZMYQQZoMub195zgv",
+				PublicKeyHash: "mv1S14SxfuavHMGDXxZJoBERZafLTyX3Z6Dx",
 				Secret: []uint8{
 					0x41, 0xf9, 0x8b, 0x15, 0xef, 0xc6, 0x3f, 0xa8, 0x93, 0xd6, 0x1d, 0x7d, 0x6e, 0xee, 0x4a, 0x2c,
 					0xe9, 0x42, 0x7a, 0xc4,
@@ -235,7 +235,7 @@ var testData = map[string][]opTestCase{
 			Kind: "ballot",
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8060002298c03ed7d454a101eb7022bc95f7e5f41ac78000002cf7663cf120f3dc8189d5dc7d4d7a0483bcc53f3f18e700f5a2f5076aa8b9dc55c0066804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpBallot{
-				Source:   "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+				Source:   "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 				Period:   719,
 				Proposal: "PscqRYywd243M2eZspXZEJGsRmNchp4ZKfKmoyEZTRHeLQvVGjp",
 				Ballot:   "yay",
@@ -246,13 +246,13 @@ var testData = map[string][]opTestCase{
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a86e0002298c03ed7d454a101eb7022bc95f7e5f41ac7821dc05edecc004adcacdb7d401ff0002298c03ed7d454a101eb7022bc95f7e5f41ac7866804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpDelegation{
 				Manager: Manager{
-					Source:       "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+					Source:       "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 					Fee:          big.NewInt(33),
 					Counter:      big.NewInt(732),
 					GasLimit:     big.NewInt(9451117),
 					StorageLimit: big.NewInt(57024931117),
 				},
-				Delegate: "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+				Delegate: "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 			},
 		},
 		{
@@ -336,14 +336,14 @@ var testData = map[string][]opTestCase{
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a86d0002298c03ed7d454a101eb7022bc95f7e5f41ac7821dc05edecc004adcacdb7d401af9105ff0002298c03ed7d454a101eb7022bc95f7e5f41ac7800000020020000001b050003680501056303680502020000000a03160346053d036d03420000000e020000000901000000047465737466804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpOrigination{
 				Manager: Manager{
-					Source:       "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+					Source:       "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 					Fee:          big.NewInt(33),
 					Counter:      big.NewInt(732),
 					GasLimit:     big.NewInt(9451117),
 					StorageLimit: big.NewInt(57024931117),
 				},
 				Balance:  big.NewInt(84143),
-				Delegate: "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+				Delegate: "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 				Script: &ScriptedContract{
 					Code: []uint8{
 						0x02, 0x00, 0x00, 0x00, 0x1b, 0x05, 0x00, 0x03, 0x68, 0x05, 0x01, 0x05, 0x63, 0x03, 0x68, 0x05,
@@ -359,7 +359,7 @@ var testData = map[string][]opTestCase{
 			Kind: "proposals",
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8050002298c03ed7d454a101eb7022bc95f7e5f41ac78000002cf000000407663cf120f3dc8189d5dc7d4d7a0483bcc53f3f18e700f5a2f5076aa8b9dc55c7663cf120f3dc8189d5dc7d4d7a0483bcc53f3f18e700f5a2f5076aa8b9dc55c66804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpProposals{
-				Source: "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+				Source: "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 				Period: 719,
 				Proposals: []string{
 					"PscqRYywd243M2eZspXZEJGsRmNchp4ZKfKmoyEZTRHeLQvVGjp",
@@ -372,7 +372,7 @@ var testData = map[string][]opTestCase{
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a86b0002298c03ed7d454a101eb7022bc95f7e5f41ac7821dc05edecc004adcacdb7d401004798d2cc98473d7e250c898885718afd2e4efbcb1a1595ab9730761ed830de0f66804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpReveal{
 				Manager: Manager{
-					Source:       "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+					Source:       "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 					Fee:          big.NewInt(33),
 					Counter:      big.NewInt(732),
 					GasLimit:     big.NewInt(9451117),
@@ -394,7 +394,7 @@ var testData = map[string][]opTestCase{
 			Data: "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a86c0002298c03ed7d454a101eb7022bc95f7e5f41ac7821dc05edecc004adcacdb7d40197030138560805b4c8d7b7fbbafad5c59dbfa3878ca70500ffff06616374696f6e000000070200000002034f66804fe735e06e97e26da8236b6341b91c625d5e82b3524ec0a88cc982365e70f8a5b9bc65df2ea6d21ee244cc3a96fb33031c394c78b1179ff1b8a44237740c",
 			Operation: &OpTransaction{
 				Manager: Manager{
-					Source:       "tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx",
+					Source:       "mv18Cw7psUrAAPBpXYd9CtCpHg9EgjHP9KTe",
 					Fee:          big.NewInt(33),
 					Counter:      big.NewInt(732),
 					GasLimit:     big.NewInt(9451117),
@@ -466,7 +466,7 @@ var testDataRaw = map[string][]opTestCase{
 			Data: "6f019965ccdba00e7ae3a73ad513cd315a1a59e57f82e303f9edae05b60a500000000f065f03620000000725633363376639",
 			Operation: &OpRegisterGlobalConstant{
 				Manager: Manager{
-					Source:       "tz2NJKztagrEVYMiQjCfoxqeuJvfWAC1BBXM",
+					Source:       "mv2a1QHbCLrmXgxNh8nwP71oL7R9KVJwd6wW",
 					Fee:          big.NewInt(483),
 					Counter:      big.NewInt(11253497),
 					GasLimit:     big.NewInt(1334),
@@ -480,7 +480,7 @@ var testDataRaw = map[string][]opTestCase{
 			Data: "7000a31e81ac3425310e3274a4698a793b2839dc0afac602917ee8070000",
 			Operation: &OpSetDepositsLimit{
 				Manager: Manager{
-					Source:       "tz1aWXP237BLwNHJcCD4b3DutCevhqq2T1Z9",
+					Source:       "mv1NszgcMUUhWe4XkWmupruw3DWuGEKi2EmL",
 					Fee:          big.NewInt(326),
 					Counter:      big.NewInt(16145),
 					GasLimit:     big.NewInt(1000),
@@ -492,7 +492,7 @@ var testDataRaw = map[string][]opTestCase{
 			Kind: "tx_rollup_origination",
 			Data: "9601b5c8c3bb9caaf90cddbffbc177d75a40483c3cb9be03adce38f10ba01f",
 			Operation: &OpTxRollupOrigination{
-				Source:       "tz2QtRURd7N88BLSHWCugwz9fmye2VnRPsp6",
+				Source:       "mv2cbVm8EmNfAKw6ZuoBG6AJ6aU7qpwjRZez",
 				Fee:          big.NewInt(446),
 				Counter:      big.NewInt(927533),
 				GasLimit:     big.NewInt(1521),
@@ -505,7 +505,7 @@ var testDataRaw = map[string][]opTestCase{
 			Operation: &OpTxRollupSubmitBatch{
 				Rollup: Rollup{
 					Manager: Manager{
-						Source:       "tz2CgQBHe4jpFcV36NBuEusxXC7TdtyDmxg6",
+						Source:       "mv2QPUTzFikMHm5hNmnAp446wzbwTEBjb8wA",
 						Fee:          big.NewInt(595),
 						Counter:      big.NewInt(927533),
 						GasLimit:     big.NewInt(2869),
@@ -522,7 +522,7 @@ var testDataRaw = map[string][]opTestCase{
 			Operation: &OpTxRollupCommit{
 				Rollup: Rollup{
 					Manager: Manager{
-						Source:       "tz1MDU45gNc9Ko1Q9obcz6hQkKSMiQRib6GZ",
+						Source:       "mv19awMfzjuVu4ndJ8AUDvPRuLJLGnvtNUTf",
 						Fee:          big.NewInt(735),
 						Counter:      big.NewInt(266523),
 						GasLimit:     big.NewInt(3838),
@@ -544,7 +544,7 @@ var testDataRaw = map[string][]opTestCase{
 			Operation: &OpTxRollupRejection{
 				Rollup: Rollup{
 					Manager: Manager{
-						Source:       "tz1MDU45gNc9Ko1Q9obcz6hQkKSMiQRib6GZ",
+						Source:       "mv19awMfzjuVu4ndJ8AUDvPRuLJLGnvtNUTf",
 						Fee:          big.NewInt(2837),
 						Counter:      big.NewInt(266515),
 						GasLimit:     big.NewInt(11633),
@@ -577,7 +577,7 @@ var testDataRaw = map[string][]opTestCase{
 			Operation: &OpTxRollupDispatchTickets{
 				Rollup: Rollup{
 					Manager: Manager{
-						Source:       "tz1inuxjXxKhd9e4b97N1Wgz7DwmZSxFcDpM",
+						Source:       "mv1XAPGKrKd4CRRHjTgDFLP1GEok7qXGVnvA",
 						Fee:          big.NewInt(835),
 						Counter:      big.NewInt(252405),
 						GasLimit:     big.NewInt(4354),
@@ -597,7 +597,7 @@ var testDataRaw = map[string][]opTestCase{
 						Ty:       []uint8{0x3, 0x68},
 						Ticketer: "KT1EMQxfYVvhTJTqMiVs2ho2dqjbYfYKk6BY",
 						Amount:   int64(2),
-						Claimer:  "tz1inuxjXxKhd9e4b97N1Wgz7DwmZSxFcDpM",
+						Claimer:  "mv1XAPGKrKd4CRRHjTgDFLP1GEok7qXGVnvA",
 					},
 				},
 			},
@@ -607,7 +607,7 @@ var testDataRaw = map[string][]opTestCase{
 			Data: "9e00fdf904a319c1fb0f073cd2ebc7c0ab71466a1781c306f5b30f82225600000012010000000d74686972642d6465706f736974000000020368013f4a259911e55e00ad15e1b23cacc020dd853bcc0001013f4a259911e55e00ad15e1b23cacc020dd853bcc0000000003787878",
 			Operation: &OpTransferTicket{
 				Manager: Manager{
-					Source:       "tz1inuxjXxKhd9e4b97N1Wgz7DwmZSxFcDpM",
+					Source:       "mv1XAPGKrKd4CRRHjTgDFLP1GEok7qXGVnvA",
 					Fee:          big.NewInt(835),
 					Counter:      big.NewInt(252405),
 					GasLimit:     big.NewInt(4354),

@@ -1,10 +1,10 @@
-package tezos
+package mavryk
 
 import (
 	"fmt"
 	"time"
 
-	"github.com/ecadlabs/signatory/pkg/tezos/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk/utils"
 )
 
 // UnsignedMessage is implemented by all kinds of sign request payloads
@@ -265,7 +265,7 @@ func parseEmmyEndorsementRequest(buf *[]byte) (*EmmyEndorsementRequest, error) {
 	}
 	e, ok := op.(*OpEmmyEndorsement)
 	if !ok {
-		return nil, fmt.Errorf("tezos: endorsement operation expected, got: %T", op)
+		return nil, fmt.Errorf("mavryk: endorsement operation expected, got: %T", op)
 	}
 	return &EmmyEndorsementRequest{
 		ChainID:           encodeBase58(pChainID, chainID),
@@ -289,7 +289,7 @@ func parseTenderbakeEndorsementRequest(buf *[]byte) (*TenderbakeEndorsementReque
 	}
 	e, ok := op.(*OpTenderbakeEndorsement)
 	if !ok {
-		return nil, fmt.Errorf("tezos: endorsement operation expected, got: %T", op)
+		return nil, fmt.Errorf("mavryk: endorsement operation expected, got: %T", op)
 	}
 	return &TenderbakeEndorsementRequest{
 		ChainID:                 encodeBase58(pChainID, chainID),
@@ -326,7 +326,7 @@ func parsePreendorsementRequest(buf *[]byte) (*PreendorsementRequest, error) {
 	}
 	e, ok := op.(*OpPreendorsement)
 	if !ok {
-		return nil, fmt.Errorf("tezos: preendorsement operation expected, got: %T", op)
+		return nil, fmt.Errorf("mavryk: preendorsement operation expected, got: %T", op)
 	}
 	return &PreendorsementRequest{
 		ChainID:          encodeBase58(pChainID, chainID),
@@ -401,7 +401,7 @@ func parseRequest(buf *[]byte) (u UnsignedMessage, err error) {
 	case magicGenericOperation:
 		return parseGenericOperationRequest(buf)
 	}
-	return nil, fmt.Errorf("tezos: unknown watermark tag: %d", t)
+	return nil, fmt.Errorf("mavryk: unknown watermark tag: %d", t)
 }
 
 // ParseRequest returns parsed sign request

@@ -4,10 +4,10 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
-	"github.com/ecadlabs/signatory/pkg/signatory"
-	"github.com/ecadlabs/signatory/pkg/tezos"
-	"github.com/ecadlabs/signatory/pkg/tezos/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +17,7 @@ func NewAuthRequestCommand() *cobra.Command {
 		Short: "Authenticate (sign) a sign request",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			priv, err := tezos.ParsePrivateKey(args[0], nil)
+			priv, err := mavryk.ParsePrivateKey(args[0], nil)
 			if err != nil {
 				return err
 			}
@@ -43,7 +43,7 @@ func NewAuthRequestCommand() *cobra.Command {
 				return err
 			}
 
-			res, err := tezos.EncodeSignature(sig)
+			res, err := mavryk.EncodeSignature(sig)
 			if err != nil {
 				return err
 			}

@@ -1,4 +1,4 @@
-package tezosapp
+package mavrykapp
 
 import (
 	"crypto"
@@ -11,22 +11,22 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
-	"github.com/ecadlabs/signatory/pkg/vault/ledger/ledger"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault/ledger/ledger"
 )
 
-// App represents Tezos application client
+// App represents Mavryk application client
 type App struct {
 	ledger.Exchanger
 }
 
-// Tezos application types
+// Mavryk application types
 const (
-	AppTezos   = 0
+	AppMavryk  = 0
 	AppTezBake = 1
 )
 
-// Version contains Tezos app version
+// Version contains Mavryk app version
 type Version struct {
 	AppClass uint8
 	Major    uint8
@@ -38,8 +38,8 @@ type Version struct {
 func (v *Version) String() string {
 	var class string
 	switch v.AppClass {
-	case AppTezos:
-		class = "Tezos"
+	case AppMavryk:
+		class = "Mavryk"
 	case AppTezBake:
 		class = "TezBake"
 	default:
@@ -48,10 +48,10 @@ func (v *Version) String() string {
 	return fmt.Sprintf("%s %d.%d.%d %s", class, v.Major, v.Minor, v.Patch, v.Git)
 }
 
-// GetVersion returns Tezos app version
+// GetVersion returns Mavryk app version
 func (t *App) GetVersion() (*Version, error) {
 	res, err := t.Exchange(&ledger.APDUCommand{
-		Cla:     claTezos,
+		Cla:     claMavryk,
 		Ins:     insVersion,
 		ForceLc: true,
 	})
@@ -59,7 +59,7 @@ func (t *App) GetVersion() (*Version, error) {
 		return nil, err
 	}
 	if res.SW != errOk {
-		return nil, TezosError(res.SW)
+		return nil, MavrykError(res.SW)
 	}
 	if len(res.Data) < 4 {
 		return nil, errors.New("invalid version length")
@@ -72,7 +72,7 @@ func (t *App) GetVersion() (*Version, error) {
 	}
 
 	res, err = t.Exchange(&ledger.APDUCommand{
-		Cla:     claTezos,
+		Cla:     claMavryk,
 		Ins:     insGit,
 		ForceLc: true,
 	})
@@ -80,7 +80,7 @@ func (t *App) GetVersion() (*Version, error) {
 		return nil, err
 	}
 	if res.SW != errOk {
-		return nil, TezosError(res.SW)
+		return nil, MavrykError(res.SW)
 	}
 	ver.Git = strings.TrimRight(string(res.Data), "\x00")
 
@@ -130,8 +130,8 @@ func DerivationTypeFromString(str string) (DerivationType, error) {
 	}
 }
 
-// TezosBIP32Root is a Tezos BIP32 root key path i.e. 44'/1729'
-var TezosBIP32Root = BIP32{44 | BIP32H, 1729 | BIP32H}
+// MavrykBIP32Root is a Mavryk BIP32 root key path i.e. 44'/1729'
+var MavrykBIP32Root = BIP32{44 | BIP32H, 1729 | BIP32H}
 
 const (
 	tagCompressed   = 2
@@ -214,7 +214,7 @@ func (t *App) GetPublicKey(derivation DerivationType, path BIP32, prompt bool) (
 	}
 
 	res, err := t.Exchange(&ledger.APDUCommand{
-		Cla:  claTezos,
+		Cla:  claMavryk,
 		Ins:  uint8(ins),
 		P2:   uint8(derivation),
 		Data: path.Bytes(),
@@ -223,7 +223,7 @@ func (t *App) GetPublicKey(derivation DerivationType, path BIP32, prompt bool) (
 		return nil, err
 	}
 	if res.SW != errOk {
-		return nil, TezosError(res.SW)
+		return nil, MavrykError(res.SW)
 	}
 
 	return parsePublicKey(res.Data, derivation)
@@ -245,7 +245,7 @@ func (t *App) Sign(derivation DerivationType, path BIP32, data []byte, prehashed
 	}
 
 	apdu := ledger.APDUCommand{
-		Cla:  claTezos,
+		Cla:  claMavryk,
 		Ins:  uint8(ins),
 		P2:   uint8(derivation),
 		Data: path.Bytes(),
@@ -255,7 +255,7 @@ func (t *App) Sign(derivation DerivationType, path BIP32, data []byte, prehashed
 		return nil, err
 	}
 	if res.SW != errOk {
-		return nil, TezosError(res.SW)
+		return nil, MavrykError(res.SW)
 	}
 
 	off := 0
@@ -275,7 +275,7 @@ func (t *App) Sign(derivation DerivationType, path BIP32, data []byte, prehashed
 			return nil, err
 		}
 		if res.SW != errOk {
-			return nil, TezosError(res.SW)
+			return nil, MavrykError(res.SW)
 		}
 	}
 
@@ -296,7 +296,7 @@ func (t *App) Sign(derivation DerivationType, path BIP32, data []byte, prehashed
 
 		if len(res.Data) != 0 {
 			// remove the parity flag which interfere with ASN.1
-			// see https://github.com/obsidiansystems/ledger-app-tezos/blob/58797b2f9606c5a30dd1ccc9e5b9962e45e10356/src/keys.c#L176
+			// see https://github.com/obsidiansystems/ledger-app-mavryk/blob/58797b2f9606c5a30dd1ccc9e5b9962e45e10356/src/keys.c#L176
 			res.Data[0] &= 0xfe
 		}
 		var sig struct {
@@ -344,7 +344,7 @@ func (t *App) SetupBaking(hwm *HWM, derivation DerivationType, path BIP32) (pub 
 	data = append(data, path.Bytes()...)
 
 	res, err := t.Exchange(&ledger.APDUCommand{
-		Cla:  claTezos,
+		Cla:  claMavryk,
 		Ins:  uint8(insSetup),
 		P2:   uint8(derivation),
 		Data: data,
@@ -354,7 +354,7 @@ func (t *App) SetupBaking(hwm *HWM, derivation DerivationType, path BIP32) (pub 
 		return nil, err
 	}
 	if res.SW != errOk {
-		return nil, TezosError(res.SW)
+		return nil, MavrykError(res.SW)
 	}
 
 	return parsePublicKey(res.Data, derivation)
@@ -362,7 +362,7 @@ func (t *App) SetupBaking(hwm *HWM, derivation DerivationType, path BIP32) (pub 
 
 func (t *App) DeauthorizeBaking() error {
 	res, err := t.Exchange(&ledger.APDUCommand{
-		Cla:     claTezos,
+		Cla:     claMavryk,
 		Ins:     uint8(insDeauthorize),
 		ForceLc: true,
 	})
@@ -370,14 +370,14 @@ func (t *App) DeauthorizeBaking() error {
 		return err
 	}
 	if res.SW != errOk {
-		return TezosError(res.SW)
+		return MavrykError(res.SW)
 	}
 	return nil
 }
 
 func (t *App) GetHighWatermarks() (*HWM, error) {
 	res, err := t.Exchange(&ledger.APDUCommand{
-		Cla:     claTezos,
+		Cla:     claMavryk,
 		Ins:     uint8(insQueryAllHWM),
 		ForceLc: true,
 	})
@@ -385,7 +385,7 @@ func (t *App) GetHighWatermarks() (*HWM, error) {
 		return nil, err
 	}
 	if res.SW != errOk {
-		return nil, TezosError(res.SW)
+		return nil, MavrykError(res.SW)
 	}
 
 	if len(res.Data) < 12 {
@@ -403,7 +403,7 @@ func (t *App) GetHighWatermarks() (*HWM, error) {
 
 func (t *App) GetHighWatermark() (uint32, error) {
 	res, err := t.Exchange(&ledger.APDUCommand{
-		Cla:     claTezos,
+		Cla:     claMavryk,
 		Ins:     uint8(insQueryMainHWM),
 		ForceLc: true,
 	})
@@ -411,7 +411,7 @@ func (t *App) GetHighWatermark() (uint32, error) {
 		return 0, err
 	}
 	if res.SW != errOk {
-		return 0, TezosError(res.SW)
+		return 0, MavrykError(res.SW)
 	}
 
 	if len(res.Data) < 4 {
@@ -429,7 +429,7 @@ func (t *App) SetHighWatermark(hwm uint32) error {
 		uint8(hwm),
 	}
 	res, err := t.Exchange(&ledger.APDUCommand{
-		Cla:  claTezos,
+		Cla:  claMavryk,
 		Ins:  uint8(insReset),
 		Data: data[:],
 	})
@@ -437,7 +437,7 @@ func (t *App) SetHighWatermark(hwm uint32) error {
 		return err
 	}
 	if res.SW != errOk {
-		return TezosError(res.SW)
+		return MavrykError(res.SW)
 	}
 	return nil
 }

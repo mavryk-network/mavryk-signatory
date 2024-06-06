@@ -6,7 +6,7 @@ import (
 	stderr "errors"
 	"net/http"
 
-	"github.com/ecadlabs/signatory/pkg/errors"
+	"github.com/mavryk-network/mavryk-signatory/pkg/errors"
 )
 
 // ErrPublicKeyNotFound is returned by AuthorizedKeysStorage.GetPublicKey if authorized key is not found

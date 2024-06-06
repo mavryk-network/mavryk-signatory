@@ -10,7 +10,7 @@ RUN apkArch="$(apk --print-arch)" && \
 		*) echo >&2 "error: unsupported architecture '$apkArch'"; exit 1 \
 			;; \
 	esac && \
-	wget -O /usr/local/bin/tezos-client https://github.com/serokell/tezos-packaging/releases/latest/download/tezos-client${TEZOS_CLIENT_ARCH} && chmod a+x /usr/local/bin/tezos-client
+	wget -O /usr/local/bin/mavkit-client https://github.com/serokell/tezos-packaging/releases/latest/download/mavkit-client${TEZOS_CLIENT_ARCH} && chmod a+x /usr/local/bin/mavkit-client
 RUN apk add --no-cache linux-headers gcc musl-dev
 
 WORKDIR /app

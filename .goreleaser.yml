@@ -9,8 +9,8 @@ builds:
       - CXX=arm-linux-gnueabihf-g++
     main: ./cmd/signatory/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - linux
     goarch:
@@ -23,8 +23,8 @@ builds:
       - CXX=arm-linux-gnueabihf-g++
     main: ./cmd/signatory-cli/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - linux
     goarch:
@@ -38,8 +38,8 @@ builds:
       - CXX=aarch64-linux-gnu-g++
     main: ./cmd/signatory/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - linux
     goarch:
@@ -52,8 +52,8 @@ builds:
       - CXX=aarch64-linux-gnu-g++
     main: ./cmd/signatory-cli/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - linux
     goarch:
@@ -67,8 +67,8 @@ builds:
       - CXX=g++
     main: ./cmd/signatory/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - linux
     goarch:
@@ -81,8 +81,8 @@ builds:
       - CXX=g++
     main: ./cmd/signatory-cli/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - linux
     goarch:
@@ -96,8 +96,8 @@ builds:
       - CXX=o64-clang++
     main: ./cmd/signatory/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - darwin
     goarch:
@@ -110,8 +110,8 @@ builds:
       - CXX=o64-clang++
     main: ./cmd/signatory-cli/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - darwin
     goarch:
@@ -125,8 +125,8 @@ builds:
       - CXX=oa64-clang++
     main: ./cmd/signatory/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - darwin
     goarch:
@@ -139,8 +139,8 @@ builds:
       - CXX=oa64-clang++
     main: ./cmd/signatory-cli/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - darwin
     goarch:
@@ -154,8 +154,8 @@ builds:
       - CXX=x86_64-w64-mingw32-g++
     main: ./cmd/signatory/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - windows
     goarch:
@@ -168,8 +168,8 @@ builds:
       - CXX=x86_64-w64-mingw32-g++
     main: ./cmd/signatory-cli/main.go
     ldflags:
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitRevision={{.Version}}'
-      - '-X github.com/ecadlabs/signatory/pkg/metrics.GitBranch={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitRevision={{.Version}}'
+      - '-X github.com/mavryk-network/mavryk-signatory/pkg/metrics.GitBranch={{.Version}}'
     goos:
       - windows
     goarch:
@@ -179,8 +179,8 @@ dockers:
       - signatory
       - signatory-cli
   - image_templates:
-    - 'ecadlabs/signatory:{{ .Tag }}-amd64'
-    - 'ecadlabs/signatory:latest-amd64'
+    - 'mavrykdynamics/mavryk-signatory:{{ .Tag }}-amd64'
+    - 'mavrykdynamics/mavryk-signatory:latest-amd64'
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
@@ -192,8 +192,8 @@ dockers:
     - "--label=org.opencontainers.image.source={{.GitURL}}"
     - "--platform=linux/amd64"
   - image_templates:
-    - 'ecadlabs/signatory:{{ .Tag }}-arm64'
-    - 'ecadlabs/signatory:latest-arm64'
+    - 'mavrykdynamics/mavryk-signatory:{{ .Tag }}-arm64'
+    - 'mavrykdynamics/mavryk-signatory:latest-arm64'
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:

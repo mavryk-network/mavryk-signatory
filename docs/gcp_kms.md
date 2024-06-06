@@ -92,7 +92,7 @@ vaults:
       project: signatory-testing
       location: europe-south1
       key_ring: sigy-key
-tezos:
+mavryk:
   # Default policy allows "block" and "endorsement" operations
   tz3fK7rVYSg2HTEAmUYdfjJWSDGfsKrxH3xQ:
     # Setting `log_payloads` to `true` will cause Signatory to log operation

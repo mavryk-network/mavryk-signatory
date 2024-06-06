@@ -27,9 +27,9 @@ vaults:
       file: /etc/secret.json
 
 # List enabled public keys hashes here
-tezos:
+mavryk:
   # Default policy allows "block" and "endorsement" operations
-  tz1Wk1Wdczh5BzyZ1uz2DW9xdFg9B5cFuGFm:
+  mv19VEmW4zEELeQiBqLHH4RHgysYuLe4P6xt:
     log_payloads: true
     allowed_operations:
     # List of [generic, block, endorsement]
@@ -38,7 +38,7 @@ tezos:
     - endorsement
 ```
 
-The `tz1Wk1Wdczh5BzyZ1uz2DW9xdFg9B5cFuGFm` key corresponds to the secret key that you will put in `/etc/secret.json`
+The `mv19VEmW4zEELeQiBqLHH4RHgysYuLe4P6xt` key corresponds to the secret key that you will put in `/etc/secret.json`
 
 Contents of `secret.json` is:
 
@@ -60,7 +60,7 @@ docker run -it --rm \
     -v "$(realpath secret.json):/etc/secret.json" \
     -p 6732:6732 \
     -p 9583:9583 \
-    ecadlabs/signatory:latest serve -c /etc/signatory.yaml
+    mavrykdynamics/mavryk-signatory:latest serve -c /etc/signatory.yaml
 ```
 
 ### Verify that Signatory is working
@@ -68,7 +68,7 @@ docker run -it --rm \
 You can test that Signatory works, making a GET request using the Public Key Hash (PKH). Signatory will return a JSON payload containing the public key.
 
 ```sh
-curl signatory:6732/keys/tz1Wk1Wdczh5BzyZ1uz2DW9xdFg9B5cFuGFm
+curl signatory:6732/keys/mv19VEmW4zEELeQiBqLHH4RHgysYuLe4P6xt
 ```
 
 A response such as the following should be expected:
@@ -82,7 +82,7 @@ You can test the signing functionality by making a POST request as follows:
 ```sh
 curl -XPOST \
     -d '"027a06a770e6cebe5b3e39483a13ac35f998d650e8b864696e31520922c7242b88c8d2ac55000003eb6d"' \
-    signatory:6732/keys/tz1Wk1Wdczh5BzyZ1uz2DW9xdFg9B5cFuGFm
+    signatory:6732/keys/mv19VEmW4zEELeQiBqLHH4RHgysYuLe4P6xt
 ```
 
 Which should return an HTTP 200 OK with a payload similar to:
@@ -93,5 +93,5 @@ Which should return an HTTP 200 OK with a payload similar to:
 
 If you repeat the same signing operation more than once, you will get an error from the High-Watermark feature. This safety measure prevents the injection of duplicate operations.
 
-The payload on this request resembles a Tezos endorsement emitted from a Tezos Baker node.
+The payload on this request resembles a Mavryk endorsement emitted from a Mavryk Baker node.
 

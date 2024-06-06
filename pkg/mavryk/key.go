@@ -1,4 +1,4 @@
-package tezos
+package mavryk
 
 import (
 	"crypto"
@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
 	"golang.org/x/crypto/blake2b"
 	"golang.org/x/crypto/nacl/secretbox"
 	"golang.org/x/crypto/pbkdf2"
@@ -18,15 +18,15 @@ import (
 
 var (
 	// ErrPrivateKey is returned when private key type is unknown
-	ErrPrivateKey = errors.New("tezos: unknown private key type")
+	ErrPrivateKey = errors.New("mavryk: unknown private key type")
 	// ErrPublicKey is returned when private key type is unknown
-	ErrPublicKey = errors.New("tezos: unknown public key type")
+	ErrPublicKey = errors.New("mavryk: unknown public key type")
 	// ErrPrivateKeyValue is returned when elliptic D value of unexpected order is provided
-	ErrPrivateKeyValue = errors.New("tezos: invalid elliptic curve private key value")
+	ErrPrivateKeyValue = errors.New("mavryk: invalid elliptic curve private key value")
 	// ErrPassphrase is returned when required passphrase is not provided
-	ErrPassphrase = errors.New("tezos: passphrase required")
+	ErrPassphrase = errors.New("mavryk: passphrase required")
 	// ErrPrivateKeyDecrypt is returned if attempt to decrypt the private key has been failed
-	ErrPrivateKeyDecrypt = errors.New("tezos: unable to decrypt the private key")
+	ErrPrivateKeyDecrypt = errors.New("mavryk: unable to decrypt the private key")
 )
 
 const (
@@ -55,7 +55,7 @@ func ecPrivateKeyFromBytes(b []byte, curve elliptic.Curve) (key *ecdsa.PrivateKe
 	// according to [SEC1], but this code will ignore it.
 	for len(b) > len(privateKey) {
 		if b[0] != 0 {
-			return nil, errors.New("tezos: invalid private key length")
+			return nil, errors.New("mavryk: invalid private key length")
 		}
 		b = b[1:]
 	}
@@ -91,7 +91,7 @@ func ParsePrivateKey(data string, passFunc PassphraseFunc) (priv cryptoutils.Pri
 		return
 	}
 
-	// See https://github.com/murbard/pytezos/blob/master/pytezos/crypto.py#L67
+	// See https://github.com/murbard/pymavryk/blob/master/pymavryk/crypto.py#L67
 	if unencPrefix, ok := isEncrypted(prefix); ok {
 		// Decrypt
 		if passFunc == nil {
@@ -134,13 +134,13 @@ func ParsePrivateKey(data string, passFunc PassphraseFunc) (priv cryptoutils.Pri
 
 	case pED25519Seed:
 		if l := len(pl); l != ed25519.SeedSize {
-			return nil, fmt.Errorf("tezos: invalid ED25519 seed length: %d", l)
+			return nil, fmt.Errorf("mavryk: invalid ED25519 seed length: %d", l)
 		}
 		return ed25519.NewKeyFromSeed(pl), nil
 
 	case pED25519SecretKey:
 		if l := len(pl); l != ed25519.PrivateKeySize {
-			return nil, fmt.Errorf("tezos: invalid ED25519 private key length: %d", l)
+			return nil, fmt.Errorf("mavryk: invalid ED25519 private key length: %d", l)
 		}
 		return ed25519.PrivateKey(pl), nil
 	}
@@ -152,15 +152,15 @@ func ParsePrivateKey(data string, passFunc PassphraseFunc) (priv cryptoutils.Pri
 func unmarshalCompressed(curve elliptic.Curve, data []byte) (x, y *big.Int, err error) {
 	byteLen := (curve.Params().BitSize + 7) / 8
 	if len(data) != 1+byteLen {
-		return nil, nil, fmt.Errorf("tezos: (%s) invalid public key length: %d", curve.Params().Name, len(data))
+		return nil, nil, fmt.Errorf("mavryk: (%s) invalid public key length: %d", curve.Params().Name, len(data))
 	}
 	if data[0] != 2 && data[0] != 3 { // compressed form
-		return nil, nil, fmt.Errorf("tezos: (%s) invalid public key compression", curve.Params().Name)
+		return nil, nil, fmt.Errorf("mavryk: (%s) invalid public key compression", curve.Params().Name)
 	}
 	p := curve.Params().P
 	x = new(big.Int).SetBytes(data[1:])
 	if x.Cmp(p) >= 0 {
-		return nil, nil, fmt.Errorf("tezos: (%s) invalid public key", curve.Params().Name)
+		return nil, nil, fmt.Errorf("mavryk: (%s) invalid public key", curve.Params().Name)
 	}
 
 	// secp256k1 polynomial: x³ + b
@@ -177,13 +177,13 @@ func unmarshalCompressed(curve elliptic.Curve, data []byte) (x, y *big.Int, err 
 	y.ModSqrt(y, p)
 
 	if y == nil {
-		return nil, nil, fmt.Errorf("tezos: (%s) invalid public key", curve.Params().Name)
+		return nil, nil, fmt.Errorf("mavryk: (%s) invalid public key", curve.Params().Name)
 	}
 	if byte(y.Bit(0)) != data[0]&1 {
 		y.Neg(y).Mod(y, p)
 	}
 	if !curve.IsOnCurve(x, y) {
-		return nil, nil, fmt.Errorf("tezos: (%s) invalid public key", curve.Params().Name)
+		return nil, nil, fmt.Errorf("mavryk: (%s) invalid public key", curve.Params().Name)
 	}
 	return
 }
@@ -215,7 +215,7 @@ func ParsePublicKey(data string) (pub crypto.PublicKey, err error) {
 
 	case pED25519PublicKey:
 		if l := len(pl); l != ed25519.PublicKeySize {
-			return nil, fmt.Errorf("tezos: invalid ED25519 public key length: %d", l)
+			return nil, fmt.Errorf("mavryk: invalid ED25519 public key length: %d", l)
 		}
 		return ed25519.PublicKey(pl), nil
 	}
@@ -244,7 +244,7 @@ func serializePublicKey(pub crypto.PublicKey) (pubPrefix, hashPrefix tzPrefix, p
 			hashPrefix = pSECP256K1PublicKeyHash
 			pubPrefix = pSECP256K1PublicKey
 		default:
-			err = fmt.Errorf("tezos: unknown curve: %s", key.Params().Name)
+			err = fmt.Errorf("mavryk: unknown curve: %s", key.Params().Name)
 			return
 		}
 		payload = elliptic.MarshalCompressed(key.Curve, key.X, key.Y)
@@ -257,7 +257,7 @@ func serializePublicKey(pub crypto.PublicKey) (pubPrefix, hashPrefix tzPrefix, p
 		return
 	}
 
-	err = fmt.Errorf("tezos: unknown public key type: %T", pub)
+	err = fmt.Errorf("mavryk: unknown public key type: %T", pub)
 	return
 }
 
@@ -318,7 +318,7 @@ func EncodePrivateKey(priv cryptoutils.PrivateKey) (res string, err error) {
 		case cryptoutils.S256():
 			prefix = pSECP256K1SecretKey
 		default:
-			return "", fmt.Errorf("tezos: unknown curve: %s", key.Params().Name)
+			return "", fmt.Errorf("mavryk: unknown curve: %s", key.Params().Name)
 		}
 		b := key.D.Bytes()
 		payload = make([]byte, (key.Params().N.BitLen()+7)>>3)
@@ -348,7 +348,7 @@ func EncodeBinaryPublicKeyHash(s string) (data []byte, err error) {
 	case pP256PublicKeyHash:
 		tag = tagPublicKeyP256
 	default:
-		return nil, errors.New("tezos: unknown public key type")
+		return nil, errors.New("mavryk: unknown public key type")
 	}
 
 	data = make([]byte, 1+len(payload))

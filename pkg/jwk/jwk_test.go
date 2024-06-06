@@ -12,7 +12,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

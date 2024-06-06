@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ecadlabs/signatory/pkg/tezos"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -26,7 +26,7 @@ func TestWatermarkData(t *testing.T) {
 	wd := watermarkData{
 		Level: 123,
 		Round: 1,
-		Hash:  tezos.EncodeValueHash(hash[:]),
+		Hash:  mavryk.EncodeValueHash(hash[:]),
 	}
 
 	assert.NoError(t, wd.isSafeToSign(&msgMock{"dummy", "dummy", 124, 0}, nil))

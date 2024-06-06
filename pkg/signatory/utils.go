@@ -1,9 +1,9 @@
 package signatory
 
-import "github.com/ecadlabs/signatory/pkg/tezos"
+import "github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
 
 func SignRequestAuthenticatedBytes(req *SignRequest) ([]byte, error) {
-	keyHashBytes, err := tezos.EncodeBinaryPublicKeyHash(req.PublicKeyHash)
+	keyHashBytes, err := mavryk.EncodeBinaryPublicKeyHash(req.PublicKeyHash)
 	if err != nil {
 		return nil, err
 	}

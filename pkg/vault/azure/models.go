@@ -3,7 +3,7 @@ package azure
 import (
 	"time"
 
-	"github.com/ecadlabs/signatory/pkg/jwk"
+	"github.com/mavryk-network/mavryk-signatory/pkg/jwk"
 )
 
 type keyVaultError struct {

@@ -50,7 +50,7 @@ vaults:
       auth_key_id: 1
 
 # List enabled public keys hashes here
-tezos:
+mavryk:
   # Default policy allows "block" and "endorsement" operations
   tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus:
   # Explicit policy
@@ -83,10 +83,10 @@ tezos:
 
 ## Signatory service
 
-Signatory service is used for signing operations and implements Tezos specific HTTP external signer API
+Signatory service is used for signing operations and implements Mavryk specific HTTP external signer API
 
 ```
-A Tezos Remote Signer for signing block-chain operations with private keys
+A Mavryk Remote Signer for signing block-chain operations with private keys
 
 Usage:
   signatory [flags]
@@ -145,7 +145,7 @@ If you receive an error from curl and on the signatory console, you will have to
 Signatory service is used for importing of private keys and obtaining information about available key pairs and their policies.
 
 ```
-A Tezos Remote Signer for signing block-chain operations with private keys
+A Mavryk Remote Signer for signing block-chain operations with private keys
 
 Usage:
   signatory-cli import [flags]

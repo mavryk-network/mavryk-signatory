@@ -9,8 +9,8 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
-	"github.com/ecadlabs/signatory/pkg/tezos"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
 	"github.com/spf13/cobra"
 )
 
@@ -65,13 +65,13 @@ func NewGenKeyCommand() *cobra.Command {
 				}
 
 				var d tplData
-				if d.PrivateKey, err = tezos.EncodePrivateKey(pk); err != nil {
+				if d.PrivateKey, err = mavryk.EncodePrivateKey(pk); err != nil {
 					return err
 				}
-				if d.PublicKey, err = tezos.EncodePublicKey(pk.Public()); err != nil {
+				if d.PublicKey, err = mavryk.EncodePublicKey(pk.Public()); err != nil {
 					return err
 				}
-				if d.PublicKeyHash, err = tezos.EncodePublicKeyHash(pk.Public()); err != nil {
+				if d.PublicKeyHash, err = mavryk.EncodePublicKeyHash(pk.Public()); err != nil {
 					return err
 				}
 				data = append(data, &d)

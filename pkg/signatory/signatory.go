@@ -9,12 +9,12 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
-	"github.com/ecadlabs/signatory/pkg/errors"
-	"github.com/ecadlabs/signatory/pkg/tezos"
-	"github.com/ecadlabs/signatory/pkg/tezos/utils"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/errors"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk"
+	"github.com/mavryk-network/mavryk-signatory/pkg/mavryk/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -141,7 +141,7 @@ func (s *Signatory) fetchPolicyOrDefault(keyHash string) *Policy {
 	return &defaultPolicy
 }
 
-func matchFilter(policy *Policy, req *SignRequest, msg tezos.UnsignedMessage) error {
+func matchFilter(policy *Policy, req *SignRequest, msg mavryk.UnsignedMessage) error {
 	if policy.AuthorizedKeyHashes != nil {
 		if req.ClientPublicKeyHash == "" {
 			return errors.New("authentication required")
@@ -173,7 +173,7 @@ func matchFilter(policy *Policy, req *SignRequest, msg tezos.UnsignedMessage) er
 		return fmt.Errorf("request kind `%s' is not allowed", kind)
 	}
 
-	if ops, ok := msg.(*tezos.GenericOperationRequest); ok {
+	if ops, ok := msg.(*mavryk.GenericOperationRequest); ok {
 		for _, op := range ops.Contents {
 			kind := op.OperationKind()
 			allowed = false
@@ -206,7 +206,7 @@ func (s *Signatory) Sign(ctx context.Context, req *SignRequest) (string, error) 
 		return "", errors.Wrap(err, http.StatusForbidden)
 	}
 
-	msg, err := tezos.ParseRequest(req.Message)
+	msg, err := mavryk.ParseRequest(req.Message)
 	if err != nil {
 		l.WithField("raw", hex.EncodeToString(req.Message)).Error(err)
 		return "", errors.Wrap(err, http.StatusBadRequest)
@@ -214,12 +214,12 @@ func (s *Signatory) Sign(ctx context.Context, req *SignRequest) (string, error) 
 
 	l = l.WithField(logOp, msg.MessageKind())
 
-	if m, ok := msg.(tezos.MessageWithLevel); ok {
+	if m, ok := msg.(mavryk.MessageWithLevel); ok {
 		l = l.WithFields(log.Fields{logChainID: m.GetChainID(), logLevel: m.GetLevel()})
 	}
 
 	var opKind []string
-	if ops, ok := msg.(*tezos.GenericOperationRequest); ok {
+	if ops, ok := msg.(*mavryk.GenericOperationRequest); ok {
 		opKind = ops.OperationKinds()
 		l = l.WithField(logKind, opKind)
 	}
@@ -285,7 +285,7 @@ func (s *Signatory) Sign(ctx context.Context, req *SignRequest) (string, error) 
 
 	l.WithField("raw", sig).Debug("Signed bytes")
 
-	encodedSig, err := tezos.EncodeGenericSignature(sig)
+	encodedSig, err := mavryk.EncodeGenericSignature(sig)
 	if err != nil {
 		return "", err
 	}
@@ -293,6 +293,9 @@ func (s *Signatory) Sign(ctx context.Context, req *SignRequest) (string, error) 
 	l.Debugf("Encoded signature: %s", encodedSig)
 	l.Infof("Signed %s successfully", msg.MessageKind())
 
+	fmt.Print("\n")
+	fmt.Print(encodedSig)
+	fmt.Print("\n")
 	return encodedSig, nil
 }
 
@@ -315,11 +318,11 @@ func (s *Signatory) listPublicKeys(ctx context.Context) (ret map[string]*keyVaul
 				}
 			}
 
-			if !cryptoutils.PublicKeySuitableForTezos(key.PublicKey()) {
+			if !cryptoutils.PublicKeySuitableForMavryk(key.PublicKey()) {
 				continue
 			}
 
-			pkh, err := tezos.EncodePublicKeyHash(key.PublicKey())
+			pkh, err := mavryk.EncodePublicKeyHash(key.PublicKey())
 			if err != nil {
 				return nil, nil, err
 			}
@@ -346,7 +349,7 @@ func (s *Signatory) ListPublicKeys(ctx context.Context) ([]*PublicKey, error) {
 
 	ret := make([]*PublicKey, len(list))
 	for i, p := range list {
-		enc, err := tezos.EncodePublicKey(p.key.PublicKey())
+		enc, err := mavryk.EncodePublicKey(p.key.PublicKey())
 		if err != nil {
 			return nil, err
 		}
@@ -388,7 +391,7 @@ func (s *Signatory) GetPublicKey(ctx context.Context, keyHash string) (*PublicKe
 		return nil, err
 	}
 
-	enc, err := tezos.EncodePublicKey(p.key.PublicKey())
+	enc, err := mavryk.EncodePublicKey(p.key.PublicKey())
 	if err != nil {
 		return nil, err
 	}
@@ -472,7 +475,7 @@ func (s *Signatory) Ready(ctx context.Context) (bool, error) {
 }
 
 // PreparePolicy prepares policy data by hashing keys etc
-func PreparePolicy(src config.TezosConfig) (map[string]*Policy, error) {
+func PreparePolicy(src config.MavrykConfig) (map[string]*Policy, error) {
 	policy := make(map[string]*Policy, len(src))
 	for k, v := range src {
 		if v == nil {
@@ -500,11 +503,11 @@ func PreparePolicy(src config.TezosConfig) (map[string]*Policy, error) {
 			keys := v.AuthorizedKeys.List()
 			pol.AuthorizedKeyHashes = make([]string, len(keys))
 			for i, k := range keys {
-				pub, err := tezos.ParsePublicKey(k)
+				pub, err := mavryk.ParsePublicKey(k)
 				if err != nil {
 					return nil, err
 				}
-				pol.AuthorizedKeyHashes[i], err = tezos.EncodePublicKeyHash(pub)
+				pol.AuthorizedKeyHashes[i], err = mavryk.EncodePublicKeyHash(pub)
 				if err != nil {
 					return nil, err
 				}

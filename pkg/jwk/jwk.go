@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ecadlabs/signatory/pkg/cryptoutils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/cryptoutils"
 )
 
 // JWK represents a A JSON Web Key

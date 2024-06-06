@@ -83,7 +83,7 @@ To list all objects on the device, run the command.
 yubihsm> list objects 0 0
 ```
 
-### Importing a Secret key into the YubiHSM2 for Tezos
+### Importing a Secret key into the YubiHSM2 for Mavryk
 
 To import a secret key, we will use the `signatory-cli` command.
 
@@ -145,7 +145,7 @@ If you import an encrypted key, the `signatory-cli` command will prompt you for 
 
 You can use the `yubihsm-shell` utility command `list objects 0 0` to verify that you can also see your newly imported secret within the YubiHSM2 device.
 
-### Listing Tezos Addresses in the YubiHSM2
+### Listing Mavryk Addresses in the YubiHSM2
 
 You can use the command `signatory-cli list` to list all keys in the YubiHSM2. `signatory-cli` also prints the configuration status for each address.
 
@@ -160,7 +160,7 @@ Status:             Disabled
 
 ### Configuring your newly imported address
 
-Add the PKH for your new secret into the `tezos:` block of your `signatory.yaml` file as follows:
+Add the PKH for your new secret into the `mavryk:` block of your `signatory.yaml` file as follows:
 
 ```yaml
 server:
@@ -175,7 +175,7 @@ vaults:
       address: localhost:12345 # Address for the yubihsm-connector
       password: password
       auth_key_id: 1
-tezos:
+mavryk:
   tz1SBhzLDp9Jvg98ztMZMstaKbAENmzRd4Y7:
     log_payloads: true
     allowed_operations:
