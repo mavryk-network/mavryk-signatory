@@ -15,7 +15,7 @@ func TestCliList(t *testing.T) {
 	assert.Nil(t, err)
 	require.Contains(t, string(out), "mv1Hox9jGJg3uSmsv9NTvuK7rMHh25cq44nv")
 	require.Contains(t, string(out), "mv2c6wrWBXebgoBMz5fVCoxKdyYyQoDHdvrL")
-	require.Contains(t, string(out), "mv3MjyvAkD9LoE34pXYcSuLRNRTYcCDsjWiJ")
+	require.Contains(t, string(out), "mv3LPw4HmuZSvwB6s3qWX5XChsCBEKzpzmGF")
 	require.Contains(t, string(out), "mv4jEyAFCa4Cc8cuidAPGm8CfwNAwmmwcWoR")
 }
 
