@@ -16,7 +16,7 @@ flexmasa mini-net \
          --root "$root_path" --size 1 \
          --set-history-mode N000:archive \
          --number-of-bootstrap-accounts 1 \
-         --balance-of-bootstrap-accounts tez:100_000_000 \
+         --balance-of-bootstrap-accounts mav:100_000_000 \
          --time-between-blocks='2,3,2' \
          --add-bootstrap-account="$alice@2_000_000_000_000" \
          --add-bootstrap-account="$speculos@2_000_000_000_000" \
