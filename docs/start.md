@@ -13,7 +13,7 @@ sidebar_label: Getting Started
 
 ## What is Signatory
 
-Signatory is a remote signing daemon that allows Tezos bakers to sign endorsement and baking operations with various key-management systems.
+Signatory is a remote signing daemon that allows Mavryk bakers to sign endorsement and baking operations with various key-management systems.
 
 Signatory currently supports [AWS KMS][aws], [Azure Key Vault][azure], [GCP Key Management][gcp], [YubiHSM][yubi], [Hashicorp Vault][hashicorp], and for development/prototyping purposes, Signatory can sign with a [local private key](localsecret.md).
 
@@ -21,16 +21,16 @@ The goal of the Signatory service is to make key management as secure as possibl
 
 Security and convenience are often opposed, but we hope to make it easier for the community to manage their keys in an adequately secure manner.
 
-By supporting multiple Cloud KMS/HSM systems, we hope to help the network from centralization on a particular Cloud offering. In the first year of the Tezos network operation, there was anecdotal evidence that many bakers run on AWS. AWS is a superb provider, but concentrating nodes on one cloud vendor centralizes the network’s underlying infrastructure, which is not desirable.
+By supporting multiple Cloud KMS/HSM systems, we hope to help the network from centralization on a particular Cloud offering. In the first year of the Mavryk network operation, there was anecdotal evidence that many bakers run on AWS. AWS is a superb provider, but concentrating nodes on one cloud vendor centralizes the network’s underlying infrastructure, which is not desirable.
 
 Observability is a first-class concern. Signatory allows for rich reporting and alerting capabilities. It exposes metrics about its operation via Prometheus metrics, enabling teams to set up robust monitoring of their critical infrastructure and allowing operators to see historical trends, signing volumes, errors and latencies. Users can report feature requests, security issues, or bug reports can via the Github project page: 
-github.com/ecadlabs/signatory or via email to security@ecadlabs.com
+github.com/mavryk-network/mavryk-signatory or via email to security@ecadlabs.com
 
 Security issues can be encrypted using the keys available at https://keybase.io/jevonearth
 
 ## How Signatory Works
 
-* A Tezos operation is sent to the Signatory API
+* A Mavryk operation is sent to the Signatory API
 * Signatory decodes and checks that the operation is permitted based on the defined policy
 * Signatory sends the operation to the configured vault backend for signing
 * Upon receiving the signature produced by backend, Signatory validates the signature
@@ -38,9 +38,9 @@ Security issues can be encrypted using the keys available at https://keybase.io/
 
 ```mermaid
 sequenceDiagram
-    Remote Signer Client-->>+Signatory: tezos operation 
+    Remote Signer Client-->>+Signatory: mavryk operation 
     Signatory-->>+Signatory: checks policy
-    Signatory-->>+Vault: tezos operation
+    Signatory-->>+Vault: mavryk operation
     Vault->>+Signatory: signature
     Signatory->>+Remote Signer Client: signature
 ```
@@ -75,12 +75,12 @@ vaults:
       file: /etc/signatory/secret.json
 
 # List enabled public keys hashes here
-tezos:
+mavryk:
   # Default policy allows "block" and "endorsement" operations
-  tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus:
+  mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy:
 
   # Explicit policy
-  tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N:
+  mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj:
     # Setting `log_payloads` to `true` will cause Signatory to log operation
     # payloads to `stdout`. This may be desirable for audit and investigative
     # purposes.
@@ -101,11 +101,11 @@ tezos:
 ```json
 [
   {
-    "name": "tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus",
+    "name": "mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy",
     "value": "unencrypted:<unencrypted_private_key>"
   },
   {
-    "name": "tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N",
+    "name": "mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj",
     "value": "unencrypted:<unencrypted_private_key>"
   }
 ]
@@ -133,8 +133,8 @@ vaults:
       secret_access_key: <redacted> # Optional 
       region: us-west-2 
 
-tezos:
-  tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N:
+mavryk:
+  mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj:
     allow:
       block:
       endorsement:
@@ -156,10 +156,10 @@ tezos:
 
 ## Signatory service
 
-Signatory service is used for signing operations and implements Tezos specific HTTP external signer API
+Signatory service is used for signing operations and implements Mavryk specific HTTP external signer API
 
 ```
-A Tezos Remote Signer for signing block-chain operations with private keys
+A Mavryk Remote Signer for signing block-chain operations with private keys
 
 Usage:
   signatory [flags]
@@ -218,7 +218,7 @@ If you receive an error from curl and on the signatory console, you will have to
 Signatory service is used for importing of private keys and obtaining information about available key pairs and their policies.
 
 ```
-A Tezos Remote Signer for signing block-chain operations with private keys
+A Mavryk Remote Signer for signing block-chain operations with private keys
 
 Usage:
   signatory-cli import [flags]

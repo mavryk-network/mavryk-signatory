@@ -4,16 +4,16 @@ networks:
 
 services:
 
-  flextesa:
-    container_name: flextesa
-    image: oxheadalpha/flextesa:latest
+  flexmasa:
+    container_name: flexmasa
+    image: mavrykdynamics/flexmasa:atlas-update-run
     ports:
       - "20000:20000"
       - "20001:20001"
     networks:
       - ecadnet
     volumes:
-      - ./flextesa.sh:/usr/bin/sigybox
+      - ./flexmasa.sh:/usr/bin/sigybox
     environment:
       - block_time=3
     command: sigybox $PROTOCOL
@@ -24,16 +24,16 @@ services:
       retries: 20
       start_period: 10s
 
-  flextesanobaking:
-    container_name: flextesanobaking
-    image: oxheadalpha/flextesa:latest
+  flexmasanobaking:
+    container_name: flexmasanobaking
+    image: mavrykdynamics/flexmasa:atlas-update-run
     ports:
       - "30000:20000"
       - "30001:20001"
     networks:
       - ecadnet
     volumes:
-      - ./flextesanobaking.sh:/usr/bin/sigybox
+      - ./flexmasanobaking.sh:/usr/bin/sigybox
     environment:
       - block_time=3
     command: sigybox $PROTOCOL
@@ -44,22 +44,22 @@ services:
       retries: 20
       start_period: 10s
 
-  octez:
-    container_name: octez
-    image: tezos/tezos:$OCTEZ_VERSION
+  mavkit:
+    container_name: mavkit
+    image: mavrykdynamics/mavryk:$MAVKIT_VERSION
     networks:
       - ecadnet
     entrypoint: tail -f /dev/null
     volumes:
-      - ./.tezos-client:/home/tezos/.tezos-client
-      - ./contract.event.tz:/home/tezos/contract.event.tz
+      - ./.mavryk-client:/home/mavryk/.mavryk-client
+      - ./contract.event.tz:/home/mavryk/contract.event.tz
     depends_on:
-      flextesa:
+      flexmasa:
         condition: service_healthy
       signatory:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "octez-client", "list", "known", "addresses"]
+      test: ["CMD", "mavkit-client", "list", "known", "addresses"]
       interval: 1s
       timeout: 1s
       retries: 10
@@ -102,7 +102,7 @@ services:
 
   speculos:
     container_name: speculos
-    image: stephengaudet/tezoswalletemu:$ARCH
+    image: stephengaudet/mavrykwalletemu:$ARCH
     ports:
       - "9999:9999"
       - "41000:41000"

@@ -9,10 +9,10 @@ import (
 	"strings"
 	"testing"
 
-	tz "github.com/ecadlabs/gotez/v2"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/server"
-	"github.com/ecadlabs/signatory/pkg/signatory"
+	tz "github.com/mavryk-network/gomav/v2"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/server"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 	"github.com/stretchr/testify/require"
 )
 

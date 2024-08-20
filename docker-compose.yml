@@ -1,7 +1,7 @@
 version: '3'
 services:
   signatory:
-      image: ecadlabs/signatory
+      image: mavrykdynamics/mavryk-signatory
       ports:
         - "80:80"
       volumes: 

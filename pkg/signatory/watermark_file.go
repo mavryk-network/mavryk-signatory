@@ -10,12 +10,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	tz "github.com/ecadlabs/gotez/v2"
-	"github.com/ecadlabs/gotez/v2/b58"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/gotez/v2/protocol"
-	"github.com/ecadlabs/signatory/pkg/hashmap"
-	"github.com/ecadlabs/signatory/pkg/signatory/request"
+	tz "github.com/mavryk-network/gomav/v2"
+	"github.com/mavryk-network/gomav/v2/b58"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/gomav/v2/protocol"
+	"github.com/mavryk-network/mavryk-signatory/pkg/hashmap"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory/request"
 	log "github.com/sirupsen/logrus"
 )
 

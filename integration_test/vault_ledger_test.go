@@ -13,7 +13,7 @@ func TestLedgerVault(t *testing.T) {
 
 	go SpeculosApprove()
 
-	out, err := OctezClient("transfer", "1", "from", tz1alias, "to", "alice", "--burn-cap", "0.06425")
+	out, err := MavkitClient("transfer", "1", "from", tz1alias, "to", "alice", "--burn-cap", "0.06425")
 
 	assert.NoError(t, err)
 	require.Contains(t, string(out), "Operation successfully injected in the node")

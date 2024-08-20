@@ -1,16 +1,16 @@
 ---
 id: bakers
-title: Tezos Bakers
+title: Mavryk Bakers
 ---
 
-# How to use Signatory with a Tezos Baker
+# How to use Signatory with a Mavryk Baker
 
-A Tezos node can be installed from binaries, or run with docker, or built from sources (for details see [here](https://teztnets.xyz/)) . In each case a baker is set up with a network and a vault, but each vault has unique requirements. This diagram shows the range of configurations supported by Signatory. There are `3x3x6=54` variations shown, and more are possible. This article will introduce baking and test networks but will focus on the configration details required for baking with each supported vault type.
+A Mavryk node can be installed from binaries, or run with docker, or built from sources (for details see [here](https://teztnets.xyz/)) . In each case a baker is set up with a network and a vault, but each vault has unique requirements. This diagram shows the range of configurations supported by Signatory. There are `3x3x6=54` variations shown, and more are possible. This article will introduce baking and test networks but will focus on the configration details required for baking with each supported vault type.
 ```mermaid
 flowchart LR
-    I{How Install Tezos<br> and Signatory?}-->BIN[Binaries]
-    I{How Install Tezos<br> and Signatory?}-->DOCKER[Docker]
-    I{How Install Tezos<br> and Signatory?}-->SOURCES[Sources]
+    I{How Install Mavryk<br> and Signatory?}-->BIN[Binaries]
+    I{How Install Mavryk<br> and Signatory?}-->DOCKER[Docker]
+    I{How Install Mavryk<br> and Signatory?}-->SOURCES[Sources]
     BIN-->NET{Which net?}
     DOCKER-->NET{Which net?}
     SOURCES-->NET{Which net?}
@@ -32,14 +32,14 @@ flowchart LR
 
 ```
 
-## Bakers on Tezos Networks
+## Bakers on Mavryk Networks
 
 Things you will need to know:
-- a working octez-client instance
-- the host_address for a Tezos Node`
+- a working mavkit-client instance
+- the host_address for a Mavryk Node`
     - in this example we will host a node locally at `http://localhost:8732`
 - a public_key_hash to be the baker
-    - e.g. `tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU`
+    - e.g. `mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ`
 - the protocol running on the network used
     - e.g. `PtMumbai`
 
@@ -52,9 +52,9 @@ curl ${host_address}/chains/main/is_bootstrapped
 List known addresses :
 
 ```
-./octez-client list known addresses
+./mavkit-client list known addresses
 
-alice: tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU (unencrypted sk known)
+alice: mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ (unencrypted sk known)
 
 ```
 
@@ -63,9 +63,9 @@ alice: tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU (unencrypted sk known)
 Show the baker address and secret key:
 
 ```
-./octez-client show address -S alice
+./mavkit-client show address -S alice
 
-Hash: tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU
+Hash: mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ
 Public Key: edpktmKfj5reMbPmgwh2BNw5EHYpHEZZceMWfffcEpfPTn6pXgoRwF
 Secret Key: unencrypted:edsk2hf8Y9oYMQ9MiEAH9pbs3H7tpcBbyxjcWuRjJCrGPB81bDHC7s
 ```
@@ -73,26 +73,26 @@ Secret Key: unencrypted:edsk2hf8Y9oYMQ9MiEAH9pbs3H7tpcBbyxjcWuRjJCrGPB81bDHC7s
 Ensure minimum required balance for baking rights. To get funds, use the [faucets](https://teztnets.xyz/). This has to wait util bootstrapping is complete.
 
 ```
-./octez-client get balance for alice
+./mavkit-client get balance for alice
 ```
 
 Register the implict account as a delegate. We can use a consensus key as well:
 
 ```
-./octez-client register key alice as delegate
+./mavkit-client register key alice as delegate
 
-./octez-client register alice as delegate with consensus key bob
+./mavkit-client register alice as delegate with consensus key bob
 ```
 
 Check for baking rights. Depending on the network used this can take days. You will need to guess at the cycle parameter.
 
 ```bash!
-./octez-client rpc get /chains/main/blocks/head/helpers/baking_rights?cycle=<cycle>&delegate=${public_key_hash}
+./mavkit-client rpc get /chains/main/blocks/head/helpers/baking_rights?cycle=<cycle>&delegate=${public_key_hash}
 
 ```
 To start the baker :
 ```bash!
-./octez-baker-alpha run with local node ~/.tezos-node --liquidity-baking-toggle-vote pass
+./mavkit-baker-alpha run with local node ~/.mavryk-node --liquidity-baking-toggle-vote pass
 ```
 ## Signatory
 
@@ -118,7 +118,7 @@ Create a file /etc/secret.json and populate it with the PKH and secret key for t
 ```json!
 [
   {
-    "name": "tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU",
+    "name": "mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ",
     "value": "unencrypted:edsk2hf8Y9oYMQ9MiEAH9pbs3H7tpcBbyxjcWuRjJCrGPB81bDHC7s"
   }
 ]
@@ -136,8 +136,8 @@ vaults:
     config:
       file: /etc/secret.json
       
-  tezos:
-    tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU:
+  mavryk:
+    mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ:
       log_payloads: true
       allowed_operations:
       - generic
@@ -158,7 +158,7 @@ Start Signatory :
 Test that Signatory is working :
 
 ```bash!
-curl localhost:6732/keys/tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU
+curl localhost:6732/keys/mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ
 
 {"public_key":"edpktmKfj5reMbPmgwh2BNw5EHYpHEZZceMWfffcEpfPTn6pXgoRwF"}
 
@@ -166,33 +166,33 @@ curl localhost:6732/keys/tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU
 ./signatory-cli list -c local_secret.yaml
 
 INFO[0000] Initializing vault                            vault=file vault_name=local_secret
-Public Key Hash:    tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU
+Public Key Hash:    mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ
 Vault:              File
-ID:                 tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU
+ID:                 mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ
 Active:             false
 ```
-Import the key Signatory provides into octez-client, overriding the key alice created earlier.
+Import the key Signatory provides into mavkit-client, overriding the key alice created earlier.
 
 ```bash!
-./octez-client import secret key alice http://localhost:6732/tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU --force
+./mavkit-client import secret key alice http://localhost:6732/mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ --force
 ```
-Check the tezos node secret key file:
+Check the mavryk node secret key file:
 ```bash!
-cat ~/.tezos-client/secret_keys
+cat ~/.mavryk-client/secret_keys
 [{ "name": "alice",
-    "value": "http://localhost:6732/tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU"
+    "value": "http://localhost:6732/mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ"
 }]
 ```
 
-Do a tezos transfer operation:
+Do a mavryk transfer operation:
 ```bash!
-./octez-client transfer 10 from alice to bob
+./mavkit-client transfer 10 from alice to bob
 ```
 and check the signatory logs
 ```go!
-INFO[0006] Requesting signing operation                  ops="map[transaction:1]" ops_total=1 pkh=tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU request=generic vault=File vault_name=local_secret
-INFO[0006] About to sign raw bytes                       ops="map[transaction:1]" ops_total=1 pkh=tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU raw=034266bedbf77c4e104790c8c3e7ca81cef9aa2f63770ae27d9032c670902f03e76c00fa8d929d0a3eb3a509e16bd6aec74e6c18783432e102fd13e9070080ade20400005cf5b8fb0209b20765b88233de1700896d4d084a00 request=generic vault=File vault_name=local_secret
-INFO[0006] Signed generic successfully                   ops="map[transaction:1]" ops_total=1 pkh=tz1iUqDimrzPmYuWbmLgWwX73YF7dBcaJryU request=generic vault=File vault_name=local_secret
+INFO[0006] Requesting signing operation                  ops="map[transaction:1]" ops_total=1 pkh=mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ request=generic vault=File vault_name=local_secret
+INFO[0006] About to sign raw bytes                       ops="map[transaction:1]" ops_total=1 pkh=mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ raw=034266bedbf77c4e104790c8c3e7ca81cef9aa2f63770ae27d9032c670902f03e76c00fa8d929d0a3eb3a509e16bd6aec74e6c18783432e102fd13e9070080ade20400005cf5b8fb0209b20765b88233de1700896d4d084a00 request=generic vault=File vault_name=local_secret
+INFO[0006] Signed generic successfully                   ops="map[transaction:1]" ops_total=1 pkh=mv1BKk9DPtkVfB43NGDVErSaY6A718X4cKJQ request=generic vault=File vault_name=local_secret
 ```
 
 
@@ -200,31 +200,31 @@ INFO[0006] Signed generic successfully                   ops="map[transaction:1]
 
 Make sure that the ledger device is able to work with your linux system and is enabled through udev rules. Some examples can be found [here](https://github.com/LedgerHQ/udev-rules)
 
-Make sure that tezos client can access the ledger:
+Make sure that mavryk client can access the ledger:
 ```bash!
-./octez-client list connected ledgers
+./mavkit-client list connected ledgers
 
 ## Ledger `elated-beaver-unusual-nightingale`
-Found a Tezos Baking 2.3.2 (git-description: "") application running on
+Found a Mavryk Baking 2.3.2 (git-description: "") application running on
 Ledger Nano S at [0001:0029:00].
 
-To use keys at BIP32 path m/44'/1729'/0'/0' (default Tezos key path), use one
+To use keys at BIP32 path m/44'/1729'/0'/0' (default Mavryk key path), use one
 of:
-  octez-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/bip25519/0h/0h"
-  octez-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/ed25519/0h/0h"
-  octez-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/secp256k1/0h/0h"
-  octez-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/P-256/0h/0h"
+  mavkit-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/bip25519/0h/0h"
+  mavkit-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/ed25519/0h/0h"
+  mavkit-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/secp256k1/0h/0h"
+  mavkit-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/P-256/0h/0h"
 ```
 
-Use the appropriate import command for the elliptic curve you plan to use to get the ledger keys into octez-client
+Use the appropriate import command for the elliptic curve you plan to use to get the ledger keys into mavkit-client
 
 ```bash!
-./octez-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/bip25519/0h/0h"
+./mavkit-client import secret key ledger_michael "ledger://elated-beaver-unusual-nightingale/bip25519/0h/0h"
 
 Please validate (and write down) the public key hash displayed on the Ledger,
 it should be equal
-to `tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt`:
-Tezos address added: tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt
+to `mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4`:
+Mavryk address added: mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4
 ```
 Review the Request on the ledger device and approve it.
 
@@ -267,8 +267,8 @@ vaults:
         - "secp256k1/0'/1'"
       close_after: 600800s
 
-tezos:
-  tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt:
+mavryk:
+  mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4:
     log_payloads: true
     allow:
       generic:
@@ -279,7 +279,7 @@ tezos:
       endorsement:
       preendorsement:
 ```
-where we have added the Ledger ID and the ledger's public key hash that we imported to octez-client.
+where we have added the Ledger ID and the ledger's public key hash that we imported to mavkit-client.
 
 Start signatory from the CLI or with Docker:
 ```
@@ -294,7 +294,7 @@ Get the public key hash from the ledger device
 ./signatory-cli list -c ledger.yaml 
 
 INFO[0000] Initializing vault                            vault=ledger vault_name=ledger
-Public Key Hash:    tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt
+Public Key Hash:    mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4
 Vault:              Ledger
 ID:                 bip32-ed25519/44'/1729'/0'/0'
 Active:             true
@@ -304,16 +304,16 @@ Allowed Operations: [endorsement proposals transaction]
 Check the logs for the baker to see that endorsing is working
 ```bash!
 Mar 22 12:09:44.815 - 016-PtMumbai.baker.actions: injected preendorsement op8Pj4ot1oZ3YmmUhxeTKiH83SUazCVDVgZzqgKb1DKj68vr8a1
-Mar 22 12:09:44.815 - 016-PtMumbai.baker.actions:   for blueledger (tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt)
+Mar 22 12:09:44.815 - 016-PtMumbai.baker.actions:   for blueledger (mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4)
 Mar 22 12:09:46.596 - 016-PtMumbai.baker.actions: injected endorsement ooee4W7k4oNSLRZu62aZQwhkahmWRngbEnJZ5CopsXGantGemzd for
-Mar 22 12:09:46.596 - 016-PtMumbai.baker.actions:   blueledger (tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt)
+Mar 22 12:09:46.596 - 016-PtMumbai.baker.actions:   blueledger (mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4)
 ```
 See the endorsing in the Signatory logs:
 ```go!
-INFO[1910525] Requesting signing operation                  chain_id=NetXQw6nWSnrJ5t lvl=457542 pkh=tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt request=preendorsement vault=Ledger vault_name=00f24232
-INFO[1910525] About to sign raw bytes                       chain_id=NetXQw6nWSnrJ5t lvl=457542 pkh=tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt raw=122f6cbd6119f3a10704d101a5d13334809adce2e9d3011c6cead4b975a8d39f91c87273e714001e0006fb4600000082c6194912098ea5a9a7d52a593e4783afb36f3965780b242eb1e271c1159cc946 request=preendorsement vault=Ledger vault_name=00f24232
-INFO[1910527] Signed preendorsement successfully            chain_id=NetXQw6nWSnrJ5t lvl=457542 pkh=tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt request=preendorsement vault=Ledger vault_name=00f24232
-INFO[1910527] POST /keys/tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt  duration=1.772184564s hostname="localhost:6732" method=POST path=/keys/tz1bQYMFieZHomNPjJvpp2g7PuhxRPDxpnFt start_time="2023-03-08T10:26:30-08:00" status=200
+INFO[1910525] Requesting signing operation                  chain_id=NetXQw6nWSnrJ5t lvl=457542 pkh=mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4 request=preendorsement vault=Ledger vault_name=00f24232
+INFO[1910525] About to sign raw bytes                       chain_id=NetXQw6nWSnrJ5t lvl=457542 pkh=mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4 raw=122f6cbd6119f3a10704d101a5d13334809adce2e9d3011c6cead4b975a8d39f91c87273e714001e0006fb4600000082c6194912098ea5a9a7d52a593e4783afb36f3965780b242eb1e271c1159cc946 request=preendorsement vault=Ledger vault_name=00f24232
+INFO[1910527] Signed preendorsement successfully            chain_id=NetXQw6nWSnrJ5t lvl=457542 pkh=mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4 request=preendorsement vault=Ledger vault_name=00f24232
+INFO[1910527] POST /keys/mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4  duration=1.772184564s hostname="localhost:6732" method=POST path=/keys/mv1WxQypGbuwefhYVYwkHf2VmMkHaurGpPd4 start_time="2023-03-08T10:26:30-08:00" status=200
 ```
 ### 3. Yubi HSM
 Follow the Signatory Vault installation instructions for Yubi HSM at https://signatory.io/docs/yubihsm
@@ -333,7 +333,7 @@ vaults:
       password: password
       auth_key_id: 1
       
-tezos:
+mavryk:
   tz3fK7rVYSg2HTEAmUYdfjJWSDGfsKrxH3xQ:
     log_payloads: true
     allow:
@@ -373,7 +373,7 @@ vaults:
       secret_access_key: <aws_secret_access_key>
       region: <aws_region>
 
-tezos:
+mavryk:
   tz2KtieusLufPkLEEocrr2etP4rb1QR3k8ri:
     log_payloads: true
     allow:
@@ -399,10 +399,10 @@ Allowed Requests:   [block endorsement generic preendorsement]
 Allowed Operations: [endorsement proposals transaction]
 ```
 
-To manage baking with this key using octez-client you can import the key:
+To manage baking with this key using mavkit-client you can import the key:
 
 ```bash
- ./octez-client import secret key awskms http://localhost:6732/tz2KtieusLufPkLEEocrr2etP4rb1QR3k8ri
+ ./mavkit-client import secret key awskms http://localhost:6732/tz2KtieusLufPkLEEocrr2etP4rb1QR3k8ri
 ```
 ### 5. GCPKeyManagement
 Follow the Signatory Vault installation instructions for GCPKeyManagement at https://signatory.io/docs/gcp_kms
@@ -423,7 +423,7 @@ vaults:
       key_ring: <key_ring_name>
       application_credentials: <credentials_file_path>
       
-tezos:
+mavryk:
   tz2PgBeeL6ddBuejPDs26iYExRchEn3K6ZXp:
     log_payloads: true
     allow:
@@ -447,10 +447,10 @@ Active:             true
 Allowed Requests:   [block endorsement generic preendorsement]
 Allowed Operations: [transaction]
 ```
-To manage baking with this key using octez-client you can import the key:
+To manage baking with this key using mavkit-client you can import the key:
 
 ```bash
- ./octez-client import secret key gcpkms http://localhost:6732/tz2PgBeeL6ddBuejPDs26iYExRchEn3K6ZXp
+ ./mavkit-client import secret key gcpkms http://localhost:6732/tz2PgBeeL6ddBuejPDs26iYExRchEn3K6ZXp
 ```
 
 
@@ -477,7 +477,7 @@ vaults:
       subscription_id: be223726da0-6dc1-4cdc-ab26-15a082bdaaa908
       resource_group: sigy
 
-tezos:
+mavryk:
   tz3d6nYmR1LmSDsgJ463Kgd8EbH53pYnuv8S:
     log_payloads: true
     allow:

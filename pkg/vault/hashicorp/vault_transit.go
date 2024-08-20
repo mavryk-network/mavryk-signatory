@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ecadlabs/signatory/pkg/vault"
 	"github.com/hashicorp/vault/api"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 )
 
 type TransitConfig struct {

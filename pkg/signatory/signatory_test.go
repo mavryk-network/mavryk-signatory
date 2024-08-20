@@ -8,12 +8,12 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/hashmap"
-	"github.com/ecadlabs/signatory/pkg/signatory"
-	"github.com/ecadlabs/signatory/pkg/vault"
-	"github.com/ecadlabs/signatory/pkg/vault/memory"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/hashmap"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault/memory"
 	"github.com/stretchr/testify/require"
 	yaml "gopkg.in/yaml.v3"
 )
@@ -39,7 +39,7 @@ func TestImport(t *testing.T) {
 	imported, err := s.Import(context.Background(), "mock", privateKey, nil, nil)
 	require.NoError(t, err)
 	require.Equal(t, "edpkv45regue1bWtuHnCgLU8xWKLwa9qRqv4gimgJKro4LSc3C5VjV", imported.PublicKey.String())
-	require.Equal(t, "tz1LggX2HUdvJ1tF4Fvv8fjsrzLeW4Jr9t2Q", imported.PublicKeyHash.String())
+	require.Equal(t, "mv1949pcbqwGsHfUCaVmNVRu21Cd4SnbpvpP", imported.PublicKeyHash.String())
 
 	list, err := s.ListPublicKeys(context.Background())
 	require.NoError(t, err)

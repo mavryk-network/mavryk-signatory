@@ -107,7 +107,7 @@ vaults:
       location: <gcp_region>
       key_ring: <key_ring_name>
       application_credentials: <credentials_file_path>
-tezos:
+mavryk:
   tz3fK7rVYSg2HTEAmUYdfjJWSDGfsKrxH3xQ:
     log_payloads: true
     allow:

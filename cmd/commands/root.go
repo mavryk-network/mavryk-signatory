@@ -5,10 +5,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ecadlabs/signatory/pkg/auth"
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/metrics"
-	"github.com/ecadlabs/signatory/pkg/signatory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/auth"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/metrics"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -32,7 +32,7 @@ func NewRootCommand(c *Context, name string) *cobra.Command {
 
 	rootCmd := cobra.Command{
 		Use:   name,
-		Short: "A Tezos Remote Signer for signing block-chain operations with private keys",
+		Short: "A Mavryk Remote Signer for signing block-chain operations with private keys",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 			if cmd.Use == "version" ||
 				strings.Contains(cmd.CommandPath(), "ledger") ||
@@ -73,7 +73,7 @@ func NewRootCommand(c *Context, name string) *cobra.Command {
 
 			log.SetLevel(lv)
 
-			pol, err := signatory.PreparePolicy(conf.Tezos)
+			pol, err := signatory.PreparePolicy(conf.Mavryk)
 			if err != nil {
 				return err
 			}

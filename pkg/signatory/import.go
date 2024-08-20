@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ecadlabs/gotez/v2/b58"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/utils"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/gomav/v2/b58"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 	log "github.com/sirupsen/logrus"
 )
 

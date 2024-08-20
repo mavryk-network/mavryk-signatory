@@ -9,13 +9,13 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/ecadlabs/gotez/v2/b58"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/auth"
-	"github.com/ecadlabs/signatory/pkg/errors"
-	"github.com/ecadlabs/signatory/pkg/middlewares"
-	"github.com/ecadlabs/signatory/pkg/signatory"
 	"github.com/gorilla/mux"
+	"github.com/mavryk-network/gomav/v2/b58"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/auth"
+	"github.com/mavryk-network/mavryk-signatory/pkg/errors"
+	"github.com/mavryk-network/mavryk-signatory/pkg/middlewares"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -27,7 +27,7 @@ type Signer interface {
 	GetPublicKey(ctx context.Context, keyHash crypt.PublicKeyHash) (*signatory.PublicKey, error)
 }
 
-// Server struct containing the information necessary to run a tezos remote signers
+// Server struct containing the information necessary to run a mavryk remote signers
 type Server struct {
 	Auth    auth.AuthorizedKeysStorage
 	MidWare *middlewares.JWTMiddleware
@@ -81,7 +81,7 @@ func (s *Server) authenticateSignRequest(req *signatory.SignRequest, r *http.Req
 func (s *Server) signHandler(w http.ResponseWriter, r *http.Request) {
 	pkh, err := b58.ParsePublicKeyHash([]byte(mux.Vars(r)["key"]))
 	if err != nil {
-		tezosJSONError(w, errors.Wrap(err, http.StatusBadRequest))
+		mavrykJSONError(w, errors.Wrap(err, http.StatusBadRequest))
 		return
 	}
 	signRequest := signatory.SignRequest{
@@ -97,26 +97,26 @@ func (s *Server) signHandler(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		s.logger().Errorf("Error reading POST content: %v", err)
-		tezosJSONError(w, err)
+		mavrykJSONError(w, err)
 		return
 	}
 
 	var req string
 	if err := json.Unmarshal(body, &req); err != nil {
-		tezosJSONError(w, errors.Wrap(err, http.StatusBadRequest))
+		mavrykJSONError(w, errors.Wrap(err, http.StatusBadRequest))
 		return
 	}
 
 	signRequest.Message, err = hex.DecodeString(req)
 	if err != nil {
-		tezosJSONError(w, errors.Wrap(err, http.StatusBadRequest))
+		mavrykJSONError(w, errors.Wrap(err, http.StatusBadRequest))
 		return
 	}
 
 	if s.Auth != nil {
 		if err = s.authenticateSignRequest(&signRequest, r); err != nil {
 			s.logger().Error(err)
-			tezosJSONError(w, err)
+			mavrykJSONError(w, err)
 			return
 		}
 	}
@@ -124,7 +124,7 @@ func (s *Server) signHandler(w http.ResponseWriter, r *http.Request) {
 	signature, err := s.Signer.Sign(r.Context(), &signRequest)
 	if err != nil {
 		s.logger().Errorf("Error signing request: %v", err)
-		tezosJSONError(w, err)
+		mavrykJSONError(w, err)
 		return
 	}
 
@@ -140,12 +140,12 @@ func (s *Server) getKeyHandler(w http.ResponseWriter, r *http.Request) {
 	keyHash := mux.Vars(r)["key"]
 	pkh, err := b58.ParsePublicKeyHash([]byte(keyHash))
 	if err != nil {
-		tezosJSONError(w, errors.Wrap(err, http.StatusBadRequest))
+		mavrykJSONError(w, errors.Wrap(err, http.StatusBadRequest))
 		return
 	}
 	key, err := s.Signer.GetPublicKey(r.Context(), pkh)
 	if err != nil {
-		tezosJSONError(w, err)
+		mavrykJSONError(w, err)
 		return
 	}
 
@@ -166,7 +166,7 @@ func (s *Server) authorizedKeysHandler(w http.ResponseWriter, r *http.Request) {
 		var err error
 		resp.AuthorizedKeys, err = s.Auth.ListPublicKeys(r.Context())
 		if err != nil {
-			tezosJSONError(w, err)
+			mavrykJSONError(w, err)
 			return
 		}
 	}

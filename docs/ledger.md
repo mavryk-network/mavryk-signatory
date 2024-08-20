@@ -6,7 +6,7 @@ title: Ledger
 # Ledger vault
 
 Connect the ledger device to the system in which signatory is running.
-Install tezos-wallet and tezos-baker apps from [ledger live](https://www.ledger.com/ledger-live/download).
+Install mavryk-wallet and mavryk-baker apps from [ledger live](https://www.ledger.com/ledger-live/download).
 
 Note: Developer mode might be needed to install baker app.
 [Ledger Developer mode](https://developers.ledger.com/docs/live-app/developer-mode/#:~:text=To%20activate%20the%20Developer%20mode,Live%20version%202.32%20and%20above.)
@@ -84,7 +84,7 @@ signatory-cli ledger --transport 'tcp://127.0.0.1:9999' list
 
 ## Getting data from ledger for signatory configuration using CLI
 
-Keep tezos-wallet app open for the below commands and for signing any wallet transactions.
+Keep mavryk-wallet app open for the below commands and for signing any wallet transactions.
 During every wallet transaction `Accept/Reject` input should be provided in the ledger when prompted.
 
 ```sh
@@ -116,7 +116,7 @@ Signatory acquires a read lock on the ledger device when in operation. Be aware 
 
 ## Setup baking with signatory and ledger
 
-Keep tezos-baker app open for the below configurations and when the baker is running.
+Keep mavryk-baker app open for the below configurations and when the baker is running.
 No prompt will be seen in ledger during signing operations.
 
 ```sh

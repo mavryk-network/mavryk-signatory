@@ -6,13 +6,13 @@ sidebar_label: Signatory Architecture
 
 # Signatory Architecture  
 
-Signatory is an excellent solution for secure and reliable remote signing in Tezos Blockchain cases. With easy-to-use configuration options, users can set up vaults and policies to ensure that only authorized operations are signed. Signatory also supports a variety of hardware-based and cloud-based HSMs, such as [AWS KMS](https://aws.amazon.com/kms/) and [YubiHSM](https://www.yubico.com/), to protect cryptographic keys.
+Signatory is an excellent solution for secure and reliable remote signing in Mavryk Blockchain cases. With easy-to-use configuration options, users can set up vaults and policies to ensure that only authorized operations are signed. Signatory also supports a variety of hardware-based and cloud-based HSMs, such as [AWS KMS](https://aws.amazon.com/kms/) and [YubiHSM](https://www.yubico.com/), to protect cryptographic keys.
 
 Using Signatory, users can securely store their secret keys and control which operations can be signed, reducing the risk of losing or having their keys stolen. Signatory also allows users to sign transactions on hardware not connected to the internet, providing an additional layer of security.
 
 ### 1. Signatory System Context
 
-The diagram demonstrated the overall high level Signatory system and includes the Signatory user, responsible for setting up the system's configuration, and the client software system, which submits requests to the Tezos API. The diagram also shows various vaults, such as AWS KMS and YubiHSM, which Signatory uses to store cryptographic keys, and the Prometheus service, which pulls and aggregates metrics data.
+The diagram demonstrated the overall high level Signatory system and includes the Signatory user, responsible for setting up the system's configuration, and the client software system, which submits requests to the Mavryk API. The diagram also shows various vaults, such as AWS KMS and YubiHSM, which Signatory uses to store cryptographic keys, and the Prometheus service, which pulls and aggregates metrics data.
 ```mermaid
 flowchart TD
 User["Signatory User Setup
@@ -27,7 +27,7 @@ User-- "Defines Vault and Policy" -->S
 
 OC["Client
 [Software System]
-submits requests to Tezos API"]
+submits requests to Mavryk API"]
 
 V["Vaults
 [Software Systems]
@@ -50,7 +50,7 @@ class OC,V,PS supportingSystem
 
 ```
 ### 2. Signatory Container Model
-The Signatory container diagram shows the different elements of the Signatory system, including Signatory as the central container, with various supporting software systems surrounding it. These supporting systems include client software for submitting requests to the Tezos API, the Prometheus service for storing metrics data, and various hardware-based and cloud-based HSMs for protecting cryptographic keys. The diagram also shows Signatory's different vaults to store cryptographic keys, such as AWS KMS and YubiHSM. 
+The Signatory container diagram shows the different elements of the Signatory system, including Signatory as the central container, with various supporting software systems surrounding it. These supporting systems include client software for submitting requests to the Mavryk API, the Prometheus service for storing metrics data, and various hardware-based and cloud-based HSMs for protecting cryptographic keys. The diagram also shows Signatory's different vaults to store cryptographic keys, such as AWS KMS and YubiHSM. 
 ```mermaid
 flowchart TD
 User["Signatory User
@@ -63,7 +63,7 @@ select vault, keys and policy"]
 
 OC["Client
 [Software System]
-submits requests to Tezos API"]
+submits requests to Mavryk API"]
 
 P["Software Application
 [PROMETHEUS]
@@ -186,16 +186,16 @@ Vault->>+Signature service : Send Error or Signature
 Signature service->>+Client: Send Error or Signature
 ```
 
-### 4. Tezos Signing Component Model
+### 4. Mavryk Signing Component Model
 
-Tezos uses elliptic curve cryptography to manage private/public key pairs, sign data, and check signatures. Signing a transaction involves prefixing it with a magic-byte, hashing the operation request, and then signing the resulting byte string with the user's secret key. The signature is then appended to the operation request to create a signed transaction, which can be broadcast to the network for confirmation.
+Mavryk uses elliptic curve cryptography to manage private/public key pairs, sign data, and check signatures. Signing a transaction involves prefixing it with a magic-byte, hashing the operation request, and then signing the resulting byte string with the user's secret key. The signature is then appended to the operation request to create a signed transaction, which can be broadcast to the network for confirmation.
 
 ```mermaid
 flowchart TB
 TJ["Transfer operation
 [JSON]
-Transaction from Alice to Bob<br>./octez-client -l transfer 1 from alice to bob"]
-TN["Tezos Node
+Transaction from Alice to Bob<br>./mavkit-client -l transfer 1 from alice to bob"]
+TN["Mavryk Node
 [Infrastructure]
 hosts RPC service"]
 FT{First<br>Transaction?}
@@ -246,25 +246,25 @@ class TN node
 class SK key
 class ED,SIG,ST signature
 ```
-Diagram adapted from [An Introduction to Tezos RPCs: Signing Operations](https://ocamlpro.com/blog/2018_11_21_an_introduction_to_tezos_rpcs_signing_operations/)
+Diagram adapted from [An Introduction to Mavryk RPCs: Signing Operations](https://ocamlpro.com/blog/2018_11_21_an_introduction_to_mavryk_rpcs_signing_operations/)
 
 ### Simplified Signing Model
-This Mermaid sequence diagram is a simplified depiction of signing a transaction on the Tezos blockchain.
+This Mermaid sequence diagram is a simplified depiction of signing a transaction on the Mavryk blockchain.
 
-- The transaction is first forged using the Tezos RPC.
+- The transaction is first forged using the Mavryk RPC.
 - The resulting operation hexadecimal is then sent to a remote signer for signing.
 - The remote signer receives the operation and the secret key corresponding to the sender's address (in this case, Alice's).
 - The remote signer signs the transaction and returns the resulting signature hexadecimal.
-- The signed transaction is then sent back to the Tezos RPC for injection into the blockchain. 
+- The signed transaction is then sent back to the Mavryk RPC for injection into the blockchain. 
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant OC as Octez Client
-    participant TR as Tezos RPC
+    participant OC as Mavkit Client
+    participant TR as Mavryk RPC
     participant RS as Remote Signer
     participant V as Vault
     U->>OC: 
-    Note over U, OC : octez-client -l transfer 1 from<br>alice to bob 
+    Note over U, OC : mavkit-client -l transfer 1 from<br>alice to bob 
     OC->>TR: Serialized
         Note over OC,TR: 0b6b28b6285d1a7146c17dd85f<br>b54b7dc7f68bd7b9a49569ac8f<br>9d6150baa2946c00172d6807f4<br>977e1c67252bdfabbfb37875e3<br>1d4f009dbb0180bd3fe0d403c0<br>843d00001be972fc31a358a26c<br>e970e921e357d95d5abe2400<br>
     TR->>TR: Add Magic Byte

@@ -7,25 +7,25 @@ title: CLI
 
 To import a secret key, we will use the `signatory-cli import` command.
 
-## Generating a key using octez-client
+## Generating a key using mavkit-client
 
 This is not the only way to generate keys to import in signatory. Any existing key can be imported in the vaults via signatory if the vault supports the key curve.
 
 ```bash
-% octez-client gen keys import-p256 -s p256 --encrypted
+% mavkit-client gen keys import-p256 -s p256 --encrypted
 Enter password to encrypt your key:
 Confirm password:
 ```
 
 ```bash
-% octez-client list known addresses
+% mavkit-client list known addresses
 import-p256: tz3gxd1y7FdVJ81vzvuACcVjAc4ewXARQkLo (encrypted sk known)
 ```
 
-The encrypted private key can be obtained from the `.octez-client/` directory
+The encrypted private key can be obtained from the `.mavkit-client/` directory
 
 ```bash
-% cat ~/.octez-client/secret_keys
+% cat ~/.mavkit-client/secret_keys
 [ { "name": "import-p256",
     "value":
       "encrypted:p2esk**********************************************************" }]
@@ -47,7 +47,7 @@ INFO[0007] Successfully imported                         key_id="https://forimpo
 
 If the import is successful, the `signatory-cli` will report the PKH (`tz3gxd1y7FdVJ81vzvuACcVjAc4ewXARQkLo` in the above example) of your newly imported secret which in turn can be used in the config YAML to add the policies.
 
-**Note:** The PKH from Signatory and the PKH from `octez-client list known addresess` command must be the same.
+**Note:** The PKH from Signatory and the PKH from `mavkit-client list known addresess` command must be the same.
 
 Name of the key can also be provided with the import command.
 
@@ -93,8 +93,8 @@ server:
 vaults:
   azure:
     ...
-tezos:
-  tz2***:
+mavryk:
+  mv2***:
     log_payloads: true
     allow:
       block:
@@ -102,7 +102,7 @@ tezos:
       preendorsement:
       generic:
         - transaction
-  tz3***:
+  mv3***:
     log_payloads: true
     allow:
       generic:
@@ -111,10 +111,10 @@ tezos:
 
 **Note:** after importing the key it is made active by adding it to the config file
 
-## Configuring octez-client to use Signatory for remote signing
+## Configuring mavkit-client to use Signatory for remote signing
 
-Once the key is imported and made active, the value of the secret key in octez-client configuration is replaced with the key's URI in Signatory:
+Once the key is imported and made active, the value of the secret key in mavkit-client configuration is replaced with the key's URI in Signatory:
 
 ```bash
-% octez-client import secret key <alias> http://<signatory_host>:6732/tz3gxd1y7FdVJ81vzvuACcVjAc4ewXARQkLo
+% mavkit-client import secret key <alias> http://<signatory_host>:6732/tz3gxd1y7FdVJ81vzvuACcVjAc4ewXARQkLo
 ```

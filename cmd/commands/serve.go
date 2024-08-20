@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ecadlabs/signatory/pkg/auth"
-	"github.com/ecadlabs/signatory/pkg/middlewares"
-	"github.com/ecadlabs/signatory/pkg/server"
+	"github.com/mavryk-network/mavryk-signatory/pkg/auth"
+	"github.com/mavryk-network/mavryk-signatory/pkg/middlewares"
+	"github.com/mavryk-network/mavryk-signatory/pkg/server"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

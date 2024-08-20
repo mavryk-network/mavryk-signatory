@@ -4,10 +4,10 @@ import (
 	"errors"
 	"os"
 
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/hashmap"
-	"github.com/ecadlabs/signatory/pkg/middlewares"
 	"github.com/go-playground/validator/v10"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/hashmap"
+	"github.com/mavryk-network/mavryk-signatory/pkg/middlewares"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -17,7 +17,7 @@ type PolicyHook struct {
 	AuthorizedKeys *AuthorizedKeys `yaml:"authorized_keys"`
 }
 
-// ServerConfig contains the information necessary to the tezos signing server
+// ServerConfig contains the information necessary to the mavryk signing server
 type ServerConfig struct {
 	Address        string           `yaml:"address" validate:"hostname_port"`
 	UtilityAddress string           `yaml:"utility_address" validate:"hostname_port"`
@@ -25,11 +25,11 @@ type ServerConfig struct {
 	JWTConfig      *middlewares.JWT `yaml:"jwt"`
 }
 
-// TezosConfig contains the configuration related to tezos network
-type TezosConfig = hashmap.PublicKeyHashMap[*TezosPolicy]
+// MavrykConfig contains the configuration related to mavryk network
+type MavrykConfig = hashmap.PublicKeyHashMap[*MavrykPolicy]
 
-// TezosPolicy contains policy definition for a specific address
-type TezosPolicy struct {
+// MavrykPolicy contains policy definition for a specific address
+type MavrykPolicy struct {
 	Allow             map[string][]string `yaml:"allow"`
 	AllowedOperations []string            `yaml:"allowed_operations"`
 	AllowedKinds      []string            `yaml:"allowed_kinds"`
@@ -47,7 +47,7 @@ type VaultConfig struct {
 // Config contains all the configuration necessary to run the signatory
 type Config struct {
 	Vaults     map[string]*VaultConfig `yaml:"vaults" validate:"dive,required"`
-	Tezos      TezosConfig             `yaml:"tezos"`
+	Mavryk     MavrykConfig            `yaml:"mavryk"`
 	Server     ServerConfig            `yaml:"server"`
 	PolicyHook *PolicyHook             `yaml:"policy_hook"`
 	BaseDir    string                  `yaml:"base_dir" validate:"required"`

@@ -32,23 +32,23 @@ func TestHashiVault(t *testing.T) {
 	defer restore_config()
 
 	pkh := hashiGetTz1()
-	var p TezosPolicy
+	var p MavrykPolicy
 	p.LogPayloads = true
 	p.Allow = map[string][]string{"generic": {"reveal", "transaction"}}
-	c.Tezos[pkh] = &p
+	c.Mavryk[pkh] = &p
 	c.Write()
 	restart_signatory()
 
-	out, err := OctezClient("import", "secret", "key", "hashitz1", "http://signatory:6732/"+pkh)
+	out, err := MavkitClient("import", "secret", "key", "hashitz1", "http://signatory:6732/"+pkh)
 	assert.NoError(t, err)
-	assert.Contains(t, string(out), "Tezos address added: "+pkh)
-	defer OctezClient("forget", "address", "hashitz1", "--force")
+	assert.Contains(t, string(out), "Mavryk address added: "+pkh)
+	defer MavkitClient("forget", "address", "hashitz1", "--force")
 
-	out, err = OctezClient("transfer", "100", "from", "alice", "to", "hashitz1", "--burn-cap", "0.06425")
+	out, err = MavkitClient("transfer", "100", "from", "alice", "to", "hashitz1", "--burn-cap", "0.06425")
 	assert.NoError(t, err)
 	require.Contains(t, string(out), "Operation successfully injected in the node")
 
-	out, err = OctezClient("transfer", "1", "from", "hashitz1", "to", "alice", "--burn-cap", "0.06425")
+	out, err = MavkitClient("transfer", "1", "from", "hashitz1", "to", "alice", "--burn-cap", "0.06425")
 	assert.NoError(t, err)
 	require.Contains(t, string(out), "Operation successfully injected in the node")
 
@@ -132,19 +132,19 @@ func hashiGetTz1() string {
 	if err != nil {
 		panic("hashiGetTz1: signatory-cli returned an error: " + string(out))
 	}
-	var tz1 string
+	var mv1 string
 	lines := strings.Split(string(out), "\n")
 	for _, line := range lines {
-		if strings.Contains(line, "tz1") {
+		if strings.Contains(line, "mv1") {
 			fields := strings.Fields(line)
 			for _, field := range fields {
-				if strings.Contains(field, "tz1") {
-					tz1 = field
+				if strings.Contains(field, "mv1") {
+					mv1 = field
 				}
 			}
 		}
 		if strings.Contains(line, "HASHICORP_VAULT") {
-			return tz1
+			return mv1
 		}
 	}
 	return "KEY_NOT_FOUND"

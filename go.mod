@@ -1,4 +1,4 @@
-module github.com/ecadlabs/signatory
+module github.com/mavryk-network/mavryk-signatory
 
 go 1.21
 
@@ -7,7 +7,6 @@ require (
 	github.com/certusone/yubihsm-go v0.3.0
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0
 	github.com/ecadlabs/goblst v1.0.0
-	github.com/ecadlabs/gotez/v2 v2.0.6
 	github.com/go-playground/validator/v10 v10.16.0
 	github.com/google/tink/go v1.7.0
 	github.com/google/uuid v1.4.0
@@ -15,6 +14,7 @@ require (
 	github.com/hashicorp/vault/api v1.10.0
 	github.com/hashicorp/vault/api/auth/approle v0.5.0
 	github.com/karalabe/hid v1.0.0
+	github.com/mavryk-network/gomav/v2 v2.1.2
 	github.com/prometheus/client_golang v1.17.0
 	github.com/segmentio/ksuid v1.0.4
 	github.com/sirupsen/logrus v1.9.3
@@ -90,4 +90,4 @@ require (
 	google.golang.org/protobuf v1.31.0 // indirect
 )
 
-// replace github.com/ecadlabs/gotez/v2 => ../gotez
+// replace github.com/mavryk-network/gomav/v2 => ../gomav

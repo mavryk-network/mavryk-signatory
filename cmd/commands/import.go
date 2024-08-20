@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"syscall"
 
-	"github.com/ecadlabs/signatory/pkg/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/utils"
 	"github.com/spf13/cobra"
 	terminal "golang.org/x/term"
 )
@@ -18,7 +18,7 @@ func NewImportCommand(c *Context) *cobra.Command {
 
 	importCmd := &cobra.Command{
 		Use:   "import [flags]",
-		Short: "Import Tezos private keys (edsk..., spsk..., p2sk...)",
+		Short: "Import Mavryk private keys (edsk..., spsk..., p2sk...)",
 		Args:  cobra.MinimumNArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			o, err := utils.ParseMap(opt, ':', ',')

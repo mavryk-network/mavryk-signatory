@@ -3,7 +3,7 @@ package commands
 import (
 	"fmt"
 
-	"github.com/ecadlabs/signatory/pkg/metrics"
+	"github.com/mavryk-network/mavryk-signatory/pkg/metrics"
 	"github.com/spf13/cobra"
 )
 

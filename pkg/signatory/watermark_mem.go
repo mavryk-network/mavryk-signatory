@@ -3,10 +3,10 @@ package signatory
 import (
 	"sync"
 
-	tz "github.com/ecadlabs/gotez/v2"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/gotez/v2/protocol"
-	"github.com/ecadlabs/signatory/pkg/signatory/request"
+	tz "github.com/mavryk-network/gomav/v2"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/gomav/v2/protocol"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory/request"
 )
 
 // InMemoryWatermark keep previous operation in memory
