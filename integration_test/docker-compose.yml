@@ -102,7 +102,7 @@ services:
 
   speculos:
     container_name: speculos
-    image: stephengaudet/mavrykwalletemu:$ARCH
+    image: stephengaudet/tezoswalletemu:$ARCH
     ports:
       - "9999:9999"
       - "41000:41000"
