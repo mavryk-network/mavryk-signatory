@@ -6,7 +6,7 @@ services:
 
   flexmasa:
     container_name: flexmasa
-    image: mavrykdynamics/flexmasa:atlas-update-run
+    image: mavrykdynamics/flexmasa:latest
     ports:
       - "20000:20000"
       - "20001:20001"
@@ -26,7 +26,7 @@ services:
 
   flexmasanobaking:
     container_name: flexmasanobaking
-    image: mavrykdynamics/flexmasa:atlas-update-run
+    image: mavrykdynamics/flexmasa:latest
     ports:
       - "30000:20000"
       - "30001:20001"
