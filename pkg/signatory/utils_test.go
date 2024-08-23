@@ -5,8 +5,8 @@ package signatory_test
 import (
 	"context"
 
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 )
 
 type GetPublicKey func(ctx context.Context, id string) (vault.StoredKey, error)

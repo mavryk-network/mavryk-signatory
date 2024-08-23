@@ -14,18 +14,18 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/ecadlabs/gotez/v2/b58"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/gotez/v2/encoding"
-	"github.com/ecadlabs/gotez/v2/protocol"
-	"github.com/ecadlabs/gotez/v2/protocol/core"
-	"github.com/ecadlabs/gotez/v2/protocol/latest"
-	"github.com/ecadlabs/signatory/pkg/auth"
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/errors"
-	"github.com/ecadlabs/signatory/pkg/hashmap"
-	"github.com/ecadlabs/signatory/pkg/signatory/request"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/gomav/v2/b58"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/gomav/v2/encoding"
+	"github.com/mavryk-network/gomav/v2/protocol"
+	"github.com/mavryk-network/gomav/v2/protocol/core"
+	"github.com/mavryk-network/gomav/v2/protocol/latest"
+	"github.com/mavryk-network/mavryk-signatory/pkg/auth"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/errors"
+	"github.com/mavryk-network/mavryk-signatory/pkg/hashmap"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory/request"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
 )
@@ -597,9 +597,9 @@ func (s *Signatory) Ready(ctx context.Context) (bool, error) {
 }
 
 // PreparePolicy prepares policy data by hashing keys etc
-func PreparePolicy(src config.TezosConfig) (out Policy, err error) {
+func PreparePolicy(src config.MavrykConfig) (out Policy, err error) {
 	policy := make(Policy, len(src))
-	src.ForEach(func(k crypt.PublicKeyHash, v *config.TezosPolicy) bool {
+	src.ForEach(func(k crypt.PublicKeyHash, v *config.MavrykPolicy) bool {
 		if v == nil {
 			policy.Insert(k, nil) // default policy
 			return true
@@ -654,7 +654,7 @@ func PreparePolicy(src config.TezosConfig) (out Policy, err error) {
 			pipe.Close()
 		}
 
-		if core.CompareProtocols(&latest.Protocol, &core.Proto018Proxford) >= 0 {
+		if core.CompareProtocols(&latest.Protocol, &core.Proto001PtAtLas) >= 0 {
 			for i, o := range pol.AllowedOps {
 				switch o {
 				case "endorsement":

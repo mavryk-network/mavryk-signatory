@@ -3,9 +3,9 @@ package config
 import (
 	"testing"
 
-	"github.com/ecadlabs/gotez/v2/b58"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/hashmap"
+	"github.com/mavryk-network/gomav/v2/b58"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/hashmap"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 )
@@ -43,10 +43,10 @@ vaults:
       location: europe-north1
       key_ring: hsm-ring
 
-tezos:
-  tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus:
+mavryk:
+  mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy:
 
-  tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N:
+  mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj:
     log_payloads: true
     allow:
       generic:
@@ -116,14 +116,14 @@ tezos:
 					},
 				},
 			},
-			Tezos: hashmap.NewPublicKeyHashMap([]hashmap.PublicKeyKV[*TezosPolicy]{
+			Mavryk: hashmap.NewPublicKeyHashMap([]hashmap.PublicKeyKV[*MavrykPolicy]{
 				{
-					Key: mustPKH("tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus"),
+					Key: mustPKH("mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy"),
 					Val: nil,
 				},
 				{
-					Key: mustPKH("tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N"),
-					Val: &TezosPolicy{
+					Key: mustPKH("mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj"),
+					Val: &MavrykPolicy{
 						LogPayloads: true,
 						Allow: map[string][]string{
 							"generic":     {"transaction", "endorsement"},
@@ -151,10 +151,10 @@ vaults:
       location: europe-north1
       key_ring: hsm-ring
 
-tezos:
+mavryk:
   111111111111111111111111111111111111:
 `,
-		expectParseError: "gotez: base58Check decoding error: invalid checksum",
+		expectParseError: "gomav: base58Check decoding error: invalid checksum",
 	},
 	{
 		title: "InvalidType",
@@ -172,10 +172,10 @@ vaults:
       location: europe-north1
       key_ring: hsm-ring
 
-tezos:
+mavryk:
   edpkv45regue1bWtuHnCgLU8xWKLwa9qRqv4gimgJKro4LSc3C5VjV:
 `,
-		expectParseError: "gotez: unknown public key prefix",
+		expectParseError: "gomav: unknown public key prefix",
 	},
 	{
 		title: "NoBaseDir",
@@ -192,10 +192,10 @@ vaults:
       location: europe-north1
       key_ring: hsm-ring
 
-tezos:
-  tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus:
+mavryk:
+  mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy:
 
-  tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N:
+  mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj:
     log_payloads: true
     allow:
       generic:
@@ -264,14 +264,14 @@ tezos:
 					},
 				},
 			},
-			Tezos: hashmap.NewPublicKeyHashMap([]hashmap.PublicKeyKV[*TezosPolicy]{
+			Mavryk: hashmap.NewPublicKeyHashMap([]hashmap.PublicKeyKV[*MavrykPolicy]{
 				{
-					Key: mustPKH("tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus"),
+					Key: mustPKH("mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy"),
 					Val: nil,
 				},
 				{
-					Key: mustPKH("tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N"),
-					Val: &TezosPolicy{
+					Key: mustPKH("mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj"),
+					Val: &MavrykPolicy{
 						LogPayloads: true,
 						Allow: map[string][]string{
 							"generic":     {"transaction", "endorsement"},
@@ -300,10 +300,10 @@ vaults:
       location: europe-north1
       key_ring: hsm-ring
 
-tezos:
-  tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus:
+mavryk:
+  mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy:
 
-  tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N:
+  mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj:
     log_payloads: true
     allow:
       generic:
@@ -373,14 +373,14 @@ tezos:
 					},
 				},
 			},
-			Tezos: hashmap.NewPublicKeyHashMap([]hashmap.PublicKeyKV[*TezosPolicy]{
+			Mavryk: hashmap.NewPublicKeyHashMap([]hashmap.PublicKeyKV[*MavrykPolicy]{
 				{
-					Key: mustPKH("tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus"),
+					Key: mustPKH("mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy"),
 					Val: nil,
 				},
 				{
-					Key: mustPKH("tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N"),
-					Val: &TezosPolicy{
+					Key: mustPKH("mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj"),
+					Val: &MavrykPolicy{
 						LogPayloads: true,
 						Allow: map[string][]string{
 							"generic":     {"transaction", "endorsement"},
@@ -404,10 +404,10 @@ server:
 vaults:
   kms:
 
-tezos:
-  tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus:
+mavryk:
+  mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy:
 
-  tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N:
+  mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj:
     log_payloads: true
     allow:
       generic:
@@ -425,14 +425,14 @@ tezos:
 			Vaults: map[string]*VaultConfig{
 				"kms": nil,
 			},
-			Tezos: hashmap.NewPublicKeyHashMap([]hashmap.PublicKeyKV[*TezosPolicy]{
+			Mavryk: hashmap.NewPublicKeyHashMap([]hashmap.PublicKeyKV[*MavrykPolicy]{
 				{
-					Key: mustPKH("tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus"),
+					Key: mustPKH("mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy"),
 					Val: nil,
 				},
 				{
-					Key: mustPKH("tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N"),
-					Val: &TezosPolicy{
+					Key: mustPKH("mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj"),
+					Val: &MavrykPolicy{
 						LogPayloads: true,
 						Allow: map[string][]string{
 							"generic":     {"transaction", "endorsement"},

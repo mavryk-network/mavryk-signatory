@@ -2,9 +2,9 @@ GIT_REVISION := $(shell git rev-parse HEAD)
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 CONTAINER_TAG ?= $(shell git branch --show-current)
 
-COLLECTOR_PKG = github.com/ecadlabs/signatory/pkg/metrics
+COLLECTOR_PKG = github.com/mavryk-network/mavryk-signatory/pkg/metrics
 
-PACKAGE_NAME          := github.com/ecadlabs/signatory
+PACKAGE_NAME          := github.com/mavryk-network/mavryk-signatory
 GOLANG_CROSS_VERSION  ?= v1.21.0
 
 all: signatory signatory-cli
@@ -16,7 +16,7 @@ signatory-cli:
 
 .PHONY: container
 container: signatory signatory-cli
-	docker build -t ecadlabs/signatory:$(CONTAINER_TAG) -f goreleaser.dockerfile .
+	docker build -t mavrykdynamics/mavryk-signatory:$(CONTAINER_TAG) -f goreleaser.dockerfile .
 
 clean:
 	rm signatory signatory-cli

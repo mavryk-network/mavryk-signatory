@@ -50,12 +50,12 @@ vaults:
         mountPoint: "transit/"
 
 # List enabled public keys hashes here
-tezos:
+mavryk:
   # This example does not specifiy a policy, and be default will allow signing of "block" and "endorsement" operations only.
-  tz1Wz4ZabKRsz842Xuzy4a7CcWADfPVsPKus:
+  mv1J7c6fHNBw8NsKwgcCMQaPviWfYPmvGUMy:
 
   # This example specifies which operations and kinds Signatory will sign, and logs payloads.
-  tz3MhmeqpudUqEX8PYTbNDF3CVcnnjNQoo8N:
+  mv3G5gvrUHi3aeNPnr42gDAqAtSHRhWb5Kmj:
     # Setting `log_payloads` to `true` will cause Signatory to log operation
     # payloads to `stdout`. This may be desirable for audit and investigative
     # purposes.

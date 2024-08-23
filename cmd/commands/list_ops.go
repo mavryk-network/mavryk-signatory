@@ -5,9 +5,9 @@ import (
 	"sort"
 	"text/template"
 
-	"github.com/ecadlabs/gotez/v2/encoding"
-	"github.com/ecadlabs/gotez/v2/protocol"
-	"github.com/ecadlabs/gotez/v2/protocol/latest"
+	"github.com/mavryk-network/gomav/v2/encoding"
+	"github.com/mavryk-network/gomav/v2/protocol"
+	"github.com/mavryk-network/gomav/v2/protocol/latest"
 	"github.com/spf13/cobra"
 )
 

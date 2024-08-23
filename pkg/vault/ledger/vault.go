@@ -8,12 +8,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/config"
-	"github.com/ecadlabs/signatory/pkg/errors"
-	"github.com/ecadlabs/signatory/pkg/vault"
-	"github.com/ecadlabs/signatory/pkg/vault/ledger/ledger"
-	"github.com/ecadlabs/signatory/pkg/vault/ledger/tezosapp"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/config"
+	"github.com/mavryk-network/mavryk-signatory/pkg/errors"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault/ledger/ledger"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault/ledger/mavrykapp"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
 )
@@ -43,8 +43,8 @@ type signReq struct {
 func (s *signReq) devRequest() {}
 
 type keyID struct {
-	path tezosapp.BIP32
-	dt   tezosapp.DerivationType
+	path mavrykapp.BIP32
+	dt   mavrykapp.DerivationType
 }
 
 // Vault is a Ledger signer backend
@@ -166,7 +166,7 @@ func (v *Vault) VaultName() string {
 
 func (v *Vault) worker() {
 	var (
-		dev *tezosapp.App
+		dev *mavrykapp.App
 		err error
 		t   *time.Timer
 		tch <-chan time.Time
@@ -288,22 +288,22 @@ func parseKeyID(s string) (*keyID, error) {
 		return nil, fmt.Errorf("error parsing key id: %s", s)
 	}
 
-	dt, err := tezosapp.DerivationTypeFromString(p[0])
+	dt, err := mavrykapp.DerivationTypeFromString(p[0])
 	if err != nil {
 		return nil, err
 	}
 
-	path := tezosapp.ParseBIP32(p[1])
+	path := mavrykapp.ParseBIP32(p[1])
 	if path == nil {
 		return nil, fmt.Errorf("error parsing key path: %s", p[1])
 	}
 	for _, p := range path {
-		if p&tezosapp.BIP32H == 0 {
+		if p&mavrykapp.BIP32H == 0 {
 			return nil, errors.New("only hardened derivation is supported")
 		}
 	}
-	if len(path) < 2 || path[0] != tezosapp.TezosBIP32Root[0] || path[1] != tezosapp.TezosBIP32Root[1] {
-		path = append(tezosapp.TezosBIP32Root, path...)
+	if len(path) < 2 || path[0] != mavrykapp.MavrykBIP32Root[0] || path[1] != mavrykapp.MavrykBIP32Root[1] {
+		path = append(mavrykapp.MavrykBIP32Root, path...)
 	}
 	if len(path) == 2 {
 		return nil, errors.New("root key isn't allowed to use")

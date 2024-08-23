@@ -1,4 +1,4 @@
-package tezosapp
+package mavrykapp
 
 import (
 	"testing"

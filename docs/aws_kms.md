@@ -68,7 +68,7 @@ vaults:
       secret_access_key: {Secret_access_Key_ID_In_AWS_User_Profile}
       region: {AWS_Region}
 # This section is for public key hashes to define what is activated IRL
-tezos:
+mavryk:
   # Default policy allows "block" and "endorsement" operations
   {public_key_hash}:
     log_payloads: true
@@ -116,4 +116,4 @@ Allowed Kinds:      [delegation endorsement reveal transaction]
 We can finally see that all the pieces are working together by curling the Signatory service and asking for the public key associated with our active public key hash:
 `curl http://localhost:6732/keys/tz3WxgnteyTpM5YzJSTFFtnNYB8Du31gf3bQ`
 
-The output can be verified by checking the public_keys file in the .tezos-client directory
+The output can be verified by checking the public_keys file in the .mavryk-client directory

@@ -13,10 +13,10 @@ func TestCliList(t *testing.T) {
 
 	out, err := SignatoryCli("list")
 	assert.Nil(t, err)
-	require.Contains(t, string(out), "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb")
-	require.Contains(t, string(out), "tz2QPsZoZse4eeahhg5DdfnBDB4VbU1PwgxN")
-	require.Contains(t, string(out), "tz3Y2TkhTYG6MfPsijGfHFqBYrLCfwYb6HRB")
-	require.Contains(t, string(out), "tz4XXtsYav3fZz2FSDa7hcx4F8sh8SaDWNME")
+	require.Contains(t, string(out), "mv1Hox9jGJg3uSmsv9NTvuK7rMHh25cq44nv")
+	require.Contains(t, string(out), "mv2c6wrWBXebgoBMz5fVCoxKdyYyQoDHdvrL")
+	require.Contains(t, string(out), "mv3LPw4HmuZSvwB6s3qWX5XChsCBEKzpzmGF")
+	require.Contains(t, string(out), "mv4jEyAFCa4Cc8cuidAPGm8CfwNAwmmwcWoR")
 }
 
 func TestCliUsage(t *testing.T) {
@@ -26,7 +26,7 @@ func TestCliUsage(t *testing.T) {
 	require.Contains(t, string(out), "signatory-cli [command]")
 	require.Contains(t, string(out), "completion    Generate the autocompletion script for the specified shell")
 	require.Contains(t, string(out), "help          Help about any command")
-	require.Contains(t, string(out), "import        Import Tezos private keys (edsk..., spsk..., p2sk...)")
+	require.Contains(t, string(out), "import        Import Mavryk private keys (edsk..., spsk..., p2sk...)")
 	require.Contains(t, string(out), "ledger        Ledger specific operations")
 	require.Contains(t, string(out), "list          List public keys")
 	require.Contains(t, string(out), "list-ops      Print possible operation types inside the `generic` request")
@@ -41,9 +41,9 @@ func TestCliListOps(t *testing.T) {
 	require.Contains(t, string(out), "Possible operation types:")
 	require.Contains(t, string(out), "- activate_account")
 	require.Contains(t, string(out), "- attestation")
-	require.Contains(t, string(out), "- attestation_with_dal")
+	require.Contains(t, string(out), "- dal_attestation")
 	require.Contains(t, string(out), "- ballot")
-	require.Contains(t, string(out), "- dal_publish_commitment")
+	require.Contains(t, string(out), "- dal_publish_slot_header")
 	require.Contains(t, string(out), "- delegation")
 	require.Contains(t, string(out), "- double_attestation_evidence")
 	require.Contains(t, string(out), "- double_baking_evidence")

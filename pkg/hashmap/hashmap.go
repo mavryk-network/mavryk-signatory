@@ -2,7 +2,7 @@
 // interface types like PublicKeyHash to be used as map keys
 package hashmap
 
-import tz "github.com/ecadlabs/gotez/v2"
+import tz "github.com/mavryk-network/gomav/v2"
 
 type KV[K, V any] struct {
 	Key K
@@ -10,7 +10,7 @@ type KV[K, V any] struct {
 }
 
 // HashMap is a wrapper around a built in map type which allows interface types
-// like gotez.PublicKeyHash to be used as map keys
+// like gomav.PublicKeyHash to be used as map keys
 type HashMap[H tz.Comparable[K], K tz.ToComparable[H, K], V any] map[H]V
 
 func (m HashMap[H, K, V]) Insert(key K, val V) (V, bool) {
@@ -45,7 +45,7 @@ func New[H tz.Comparable[K], K tz.ToComparable[H, K], V any](init []KV[K, V]) Ha
 
 type PublicKeyKV[V any] KV[tz.PublicKeyHash, V]
 
-// PublicKeyHashMap is a shortcut for a map with gotez.PublicKeyHash keys
+// PublicKeyHashMap is a shortcut for a map with gomav.PublicKeyHash keys
 type PublicKeyHashMap[V any] HashMap[tz.EncodedPublicKeyHash, tz.PublicKeyHash, V]
 
 func NewPublicKeyHashMap[V any](init []PublicKeyKV[V]) PublicKeyHashMap[V] {

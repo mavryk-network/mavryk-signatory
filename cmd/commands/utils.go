@@ -5,7 +5,7 @@ import (
 	"io"
 	"text/template"
 
-	"github.com/ecadlabs/signatory/pkg/signatory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 )
 
 const listTemplateSrc = `{{range . -}}

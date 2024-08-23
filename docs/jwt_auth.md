@@ -141,7 +141,7 @@ If no JWT users are configured for a PKH, then any JWT token will be accepted fo
 ### sample configuration file:
 
 ```yaml
-tezos:
+mavryk:
   tz3cbDCwrqFqfx1dBhHoXTwZ9FG3MDrtyMs6:
     jwt_users:
       - user_name1

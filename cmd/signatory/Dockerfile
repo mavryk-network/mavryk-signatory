@@ -1,6 +1,6 @@
 FROM golang:1.14-alpine AS build-env
 
-ENV COLLECTOR_PKG="github.com/ecadlabs/signatory/pkg/metrics"
+ENV COLLECTOR_PKG="github.com/mavryk-network/mavryk-signatory/pkg/metrics"
 ENV GO111MODULE="on"
 WORKDIR /build/signatory
 RUN apk update && apk add git openssh bash

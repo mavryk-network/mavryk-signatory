@@ -17,7 +17,7 @@ const (
 	baseUrl   = "http://localhost:6732/"
 	secret    = "!sEtcU5RwLQYsA5qQ1c6zpo3FljQxfAKP"
 	secret2   = "*sEtcU5RwLQYsA5qQ1c6zpo3FljQxfAKP"
-	endpoint  = baseUrl + "keys/tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb"
+	endpoint  = baseUrl + "keys/mv1Hox9jGJg3uSmsv9NTvuK7rMHh25cq44nv"
 	login     = baseUrl + "login"
 	message   = "\"03c8e312c61a5fd8e9d6ff1d5dccf900e10b5769e55738eb365e99636e3c3fd1d76c006b82198cb179e8306c1bedd08f12dc863f328886df0202e90700c0843d0000a26828841890d3f3a2a1d4083839c7a882fe050100\""
 	username1 = "username1"
@@ -298,10 +298,10 @@ func TestPasswordRotation(t *testing.T) {
 }
 
 func TestPerPkh(t *testing.T) {
-	var pkh1 = "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb"
-	var pkh2 = "tz1aSkwEot3L2kmUvcoxzjMomb9mvBNuzFK6"
-	var pkh3 = "tz1RKGhRF4TZNCXEfwyqZshGsVfrZeVU446B"
-	var pkh4 = "tz1R8HJMzVdZ9RqLCknxeq9w5rSbiqJ41szi"
+	var pkh1 = "mv1Hox9jGJg3uSmsv9NTvuK7rMHh25cq44nv"
+	var pkh2 = "mv1NpEEq8FLgc2Yi4wNpEZ3pvc1kUZrp2JWU"
+	var pkh3 = "mv1Dgk11ZRkuwUJTpGYgohPJ2WXq82v6yC7v"
+	var pkh4 = "mv1DVkbxJrvuihcZM5MoteqxEsJaHDmexMTw"
 	var base = baseUrl + "keys/"
 	var url1 = base + pkh1
 	var url2 = base + pkh2
@@ -313,11 +313,11 @@ func TestPerPkh(t *testing.T) {
 	c.Server.Jwt = JwtConfig{Users: map[string]*JwtUserData{username1: {Password: password1, Secret: secret},
 		username2: {Password: password2, Secret: secret}}}
 
-	c.Tezos[pkh1].JwtUsers = []string{username1}
-	c.Tezos[pkh2].JwtUsers = []string{username2}
-	c.Tezos[pkh3].JwtUsers = []string{username1, username2}
-	c.Tezos[pkh3].Allow = map[string][]string{"generic": {"transaction"}}
-	c.Tezos[pkh4].Allow = map[string][]string{"generic": {"transaction"}}
+	c.Mavryk[pkh1].JwtUsers = []string{username1}
+	c.Mavryk[pkh2].JwtUsers = []string{username2}
+	c.Mavryk[pkh3].JwtUsers = []string{username1, username2}
+	c.Mavryk[pkh3].Allow = map[string][]string{"generic": {"transaction"}}
+	c.Mavryk[pkh4].Allow = map[string][]string{"generic": {"transaction"}}
 
 	backup_then_update_config(c)
 	defer restore_config()

@@ -22,7 +22,7 @@ const (
 	protocol  = "http://"
 	host      = "localhost"
 	port      = "6732"
-	pkh       = "tz1WGcYos3hL7GXYXjKrMnSFdkT7FyXnFBvf"
+	pkh       = "mv1LkuVrpuEYCjZqTM93ri8aKYNtqFoYeACk"
 	url       = protocol + host + ":" + port + "/keys/" + pkh
 	dir       = "/var/lib/signatory/watermark_v2/"
 	container = "signatory"

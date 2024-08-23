@@ -1,11 +1,11 @@
-package tezosapp
+package mavrykapp
 
 import (
 	"fmt"
 )
 
 const (
-	claTezos = 0x80
+	claMavryk = 0x80
 )
 
 const (
@@ -65,10 +65,10 @@ var errDesc = map[uint16]string{
 	errReferencedDataNotFound:      "Referenced data not found",
 }
 
-// TezosError represents the Tezos specific subset of APDU status codes
-type TezosError uint16
+// MavrykError represents the Mavryk specific subset of APDU status codes
+type MavrykError uint16
 
-func (l TezosError) Error() string {
+func (l MavrykError) Error() string {
 	if desc, ok := errDesc[uint16(l)]; ok {
 		return fmt.Sprintf("[%#04x]: %s", uint16(l), desc)
 	} else if l&0xfff0 == 0x63c0 {

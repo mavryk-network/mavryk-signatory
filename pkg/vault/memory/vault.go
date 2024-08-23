@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/ecadlabs/gotez/v2/b58"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/errors"
-	"github.com/ecadlabs/signatory/pkg/utils"
-	"github.com/ecadlabs/signatory/pkg/vault"
+	"github.com/mavryk-network/gomav/v2/b58"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/errors"
+	"github.com/mavryk-network/mavryk-signatory/pkg/utils"
+	"github.com/mavryk-network/mavryk-signatory/pkg/vault"
 )
 
 type PrivateKey struct {
@@ -58,7 +58,7 @@ func (i *iterator) Next() (key vault.StoredKey, err error) {
 	return key, nil
 }
 
-// NewUnparsed create a new in-mempory vault from Tezos encoded data. Call Unlock before use
+// NewUnparsed create a new in-mempory vault from Mavryk encoded data. Call Unlock before use
 func NewUnparsed(data []*UnparsedKey, name string) *Vault {
 	if name == "" {
 		name = "Mem"

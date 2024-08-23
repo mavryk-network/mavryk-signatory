@@ -1,8 +1,8 @@
 package signatory
 
 import (
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/gotez/v2/protocol"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/gomav/v2/protocol"
 )
 
 // Watermark tests level against stored high watermark

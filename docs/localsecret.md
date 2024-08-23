@@ -23,7 +23,7 @@ vaults:
     config:
       file: /etc/secret.json
 
-tezos:
+mavryk:
   tz1Wk1Wdczh5BzyZ1uz2DW9xdFg9B5cFuGFm:
     log_payloads: true
     allow:
@@ -59,7 +59,7 @@ docker run -it --rm \
     -v "$(realpath secret.json):/etc/secret.json" \
     -p 6732:6732 \
     -p 9583:9583 \
-    ecadlabs/signatory:latest serve -c /etc/signatory.yaml
+    mavrykdynamics/mavryk-signatory:latest serve -c /etc/signatory.yaml
 ```
 
 ### Verify that Signatory is working
@@ -92,5 +92,5 @@ Which should return an HTTP 200 OK with a payload similar to:
 
 If you repeat the same signing operation more than once, you will get an error from the High-Watermark feature. This safety measure prevents the injection of duplicate operations.
 
-The payload on this request resembles a Tezos endorsement emitted from a Tezos Baker node.
+The payload on this request resembles a Mavryk endorsement emitted from a Mavryk Baker node.
 

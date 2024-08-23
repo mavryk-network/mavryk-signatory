@@ -4,9 +4,9 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/ecadlabs/gotez/v2/b58"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/signatory"
+	"github.com/mavryk-network/gomav/v2/b58"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 	"github.com/spf13/cobra"
 )
 

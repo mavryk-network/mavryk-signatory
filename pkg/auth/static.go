@@ -3,9 +3,9 @@ package auth
 import (
 	"context"
 
-	tz "github.com/ecadlabs/gotez/v2"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/hashmap"
+	tz "github.com/mavryk-network/gomav/v2"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/hashmap"
 )
 
 type authorizedKeys = hashmap.PublicKeyHashMap[crypt.PublicKey]

@@ -3,8 +3,8 @@ package signatory
 import (
 	"bytes"
 
-	"github.com/ecadlabs/gotez/v2/encoding"
-	"github.com/ecadlabs/gotez/v2/protocol"
+	"github.com/mavryk-network/gomav/v2/encoding"
+	"github.com/mavryk-network/gomav/v2/protocol"
 )
 
 func AuthenticatedBytesToSign(req *SignRequest) ([]byte, error) {

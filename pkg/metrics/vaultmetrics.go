@@ -3,7 +3,7 @@ package metrics
 import (
 	"strconv"
 
-	"github.com/ecadlabs/signatory/pkg/signatory"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )

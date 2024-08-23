@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	tz "github.com/ecadlabs/gotez/v2"
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/gotez/v2/protocol"
+	tz "github.com/mavryk-network/gomav/v2"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/gomav/v2/protocol"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

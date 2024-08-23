@@ -6,8 +6,8 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/ecadlabs/gotez/v2/crypt"
-	"github.com/ecadlabs/signatory/pkg/signatory"
+	"github.com/mavryk-network/gomav/v2/crypt"
+	"github.com/mavryk-network/mavryk-signatory/pkg/signatory"
 )
 
 type Server struct {
