@@ -36,23 +36,23 @@ type testCase struct {
 // these test cases are not atomic -- some tests depend on previous tests (order matters)
 var testcases = []testCase{
 	{
-		kind:           "preattestation",
-		op:             "preattestation",
+		kind:           "preendorsement",
+		op:             "preendorsement",
 		testSetupOps:   nil,
-		testOp:         []string{"--endpoint", flexmasanob, "preattest", "for", alias, "--force"},
+		testOp:         []string{"--endpoint", flexmasanob, "preendorse", "for", alias, "--force"},
 		account:        account,
-		allowPolicy:    map[string][]string{"generic": {"preattestation"}, "preattestation": {}},
-		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"preattestation"}), "attestation": {}, "block": {}},
+		allowPolicy:    map[string][]string{"generic": {"preendorsement"}, "preendorsement": {}},
+		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"preendorsement"}), "endorsement": {}, "block": {}},
 		successMessage: "injected ",
 	},
 	{
-		kind:           "attestation",
-		op:             "attestation",
+		kind:           "endorsement",
+		op:             "endorsement",
 		testSetupOps:   nil,
-		testOp:         []string{"--endpoint", flexmasanob, "attest", "for", alias, "--force"},
+		testOp:         []string{"--endpoint", flexmasanob, "endorse", "for", alias, "--force"},
 		account:        account,
-		allowPolicy:    map[string][]string{"generic": {"attestation"}, "attestation": {}},
-		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"attestation"}), "preattestation": {}, "block": {}},
+		allowPolicy:    map[string][]string{"generic": {"endorsement"}, "endorsement": {}},
+		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"endorsement"}), "preendorsement": {}, "block": {}},
 		successMessage: "injected ",
 	},
 	// {
@@ -62,7 +62,7 @@ var testcases = []testCase{
 	// 	testOp:         []string{"--endpoint", flexmasanob, "bake", "for", alias, "--force"},
 	// 	account:        account,
 	// 	allowPolicy:    map[string][]string{"generic": {}, "block": {}},
-	// 	notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"block"}), "preattestation": {}, "attestation": {}},
+	// 	notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"block"}), "preendorsement": {}, "endorsement": {}},
 	// 	successMessage: "injected for " + alias + " (" + account + ")",
 	// },
 	{
@@ -156,10 +156,10 @@ func TestOperationAllowPolicy(t *testing.T) {
 				return
 			}
 			//likewise, when we stop testing N, we can get rid of the next 2 conditionals
-			if test.kind == "attestation" {
+			if test.kind == "endorsement" {
 				test.successMessage = test.successMessage + os.Getenv("ATTESTATION")
 			}
-			if test.kind == "preattestation" {
+			if test.kind == "preendorsement" {
 				test.successMessage = test.successMessage + os.Getenv("PREATTESTATION")
 			}
 
@@ -210,8 +210,8 @@ func TestOperationAllowPolicy(t *testing.T) {
 
 func getAllOps() []string {
 	return []string{"activate_account", "ballot", "dal_attestation", "dal_publish_slot_header", "delegation",
-		"double_baking_evidence", "double_attestation_evidence", "double_preattestation_evidence", "drain_delegate",
-		"attestation", "event", "failing_noop", "increase_paid_storage", "origination", "preattestation", "proposals",
+		"double_baking_evidence", "double_endorsement_evidence", "double_preendorsement_evidence", "drain_delegate",
+		"endorsement", "event", "failing_noop", "increase_paid_storage", "origination", "preendorsement", "proposals",
 		"register_global_constant", "reveal", "sc_rollup_add_messages", "sc_rollup_cement",
 		"sc_rollup_execute_outbox_message", "sc_rollup_originate", "sc_rollup_publish", "sc_rollup_recover_bond",
 		"sc_rollup_refute", "sc_rollup_timeout", "seed_nonce_revelation", "set_deposits_limit", "transaction",
