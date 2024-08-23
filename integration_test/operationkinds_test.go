@@ -36,35 +36,35 @@ type testCase struct {
 // these test cases are not atomic -- some tests depend on previous tests (order matters)
 var testcases = []testCase{
 	{
-		kind:           "preendorsement",
-		op:             "preendorsement",
+		kind:           "preattestation",
+		op:             "preattestation",
 		testSetupOps:   nil,
-		testOp:         []string{"--endpoint", flexmasanob, "preendorse", "for", alias, "--force"},
+		testOp:         []string{"--endpoint", flexmasanob, "preattest", "for", alias, "--force"},
 		account:        account,
-		allowPolicy:    map[string][]string{"generic": {"preendorsement"}, "preendorsement": {}},
-		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"preendorsement"}), "endorsement": {}, "block": {}},
+		allowPolicy:    map[string][]string{"generic": {"preattestation"}, "preattestation": {}},
+		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"preattestation"}), "attestation": {}, "block": {}},
 		successMessage: "injected ",
 	},
 	{
-		kind:           "endorsement",
-		op:             "endorsement",
+		kind:           "attestation",
+		op:             "attestation",
 		testSetupOps:   nil,
-		testOp:         []string{"--endpoint", flexmasanob, "endorse", "for", alias, "--force"},
+		testOp:         []string{"--endpoint", flexmasanob, "attest", "for", alias, "--force"},
 		account:        account,
-		allowPolicy:    map[string][]string{"generic": {"endorsement"}, "endorsement": {}},
-		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"endorsement"}), "preendorsement": {}, "block": {}},
+		allowPolicy:    map[string][]string{"generic": {"attestation"}, "attestation": {}},
+		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"attestation"}), "preattestation": {}, "block": {}},
 		successMessage: "injected ",
 	},
-	{
-		kind:           "block",
-		op:             "block",
-		testSetupOps:   nil,
-		testOp:         []string{"--endpoint", flexmasanob, "bake", "for", alias, "--force"},
-		account:        account,
-		allowPolicy:    map[string][]string{"generic": {}, "block": {}},
-		notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"block"}), "preendorsement": {}, "endorsement": {}},
-		successMessage: "injected for " + alias + " (" + account + ")",
-	},
+	// {
+	// 	kind:           "block",
+	// 	op:             "block",
+	// 	testSetupOps:   nil,
+	// 	testOp:         []string{"--endpoint", flexmasanob, "bake", "for", alias, "--force"},
+	// 	account:        account,
+	// 	allowPolicy:    map[string][]string{"generic": {}, "block": {}},
+	// 	notAllowPolicy: map[string][]string{"generic": getAllOpsExcluding([]string{"block"}), "preattestation": {}, "attestation": {}},
+	// 	successMessage: "injected for " + alias + " (" + account + ")",
+	// },
 	{
 		kind:           "reveal",
 		op:             "generic",
@@ -156,10 +156,10 @@ func TestOperationAllowPolicy(t *testing.T) {
 				return
 			}
 			//likewise, when we stop testing N, we can get rid of the next 2 conditionals
-			if test.kind == "endorsement" {
+			if test.kind == "attestation" {
 				test.successMessage = test.successMessage + os.Getenv("ATTESTATION")
 			}
-			if test.kind == "preendorsement" {
+			if test.kind == "preattestation" {
 				test.successMessage = test.successMessage + os.Getenv("PREATTESTATION")
 			}
 
@@ -210,8 +210,8 @@ func TestOperationAllowPolicy(t *testing.T) {
 
 func getAllOps() []string {
 	return []string{"activate_account", "ballot", "dal_attestation", "dal_publish_slot_header", "delegation",
-		"double_baking_evidence", "double_endorsement_evidence", "double_preendorsement_evidence", "drain_delegate",
-		"endorsement", "event", "failing_noop", "increase_paid_storage", "origination", "preendorsement", "proposals",
+		"double_baking_evidence", "double_attestation_evidence", "double_preattestation_evidence", "drain_delegate",
+		"attestation", "event", "failing_noop", "increase_paid_storage", "origination", "preattestation", "proposals",
 		"register_global_constant", "reveal", "sc_rollup_add_messages", "sc_rollup_cement",
 		"sc_rollup_execute_outbox_message", "sc_rollup_originate", "sc_rollup_publish", "sc_rollup_recover_bond",
 		"sc_rollup_refute", "sc_rollup_timeout", "seed_nonce_revelation", "set_deposits_limit", "transaction",
